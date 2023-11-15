@@ -1,0 +1,62 @@
+from trie_node import *
+
+
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, data):
+        node = self.root
+        idx = 0
+        for char in data:
+            print("\t\t", print_string_with_markers(data, idx), sep="")
+            idx += 1
+            # Create a new node if char does not exist in children dictionary
+            if char not in node.children:
+                print(
+                    "\t\t", char, " does not exist in the children dictionary, creating a new node", sep="")
+                node.children[char] = TrieNode()
+                print("\t\t\tChildren: ", node.children.keys())
+            node = node.children[char]
+            print("\t\tCurrent node now = ", char, sep="")
+            if len(node.search_words) < 3:
+                node.search_words.append(data)
+                print("\t\tWe'll add the searched word to the current node's search list")
+                print("\t\t\tUpdated list for '", char, "': ",
+                    node.search_words, sep="")
+            else:
+                print("\t\tLength of search list for '", char, "' = 3", sep="")
+                print("\t\tSo we won't append the searched word to it.")
+            print()
+
+
+def suggested_products(products, search_word):
+    # Sorting the products list
+    products.sort()
+    trie = Trie()
+    # Insert each products string in Trie
+    print("\n\tInserting nodes in the trie")
+    for x in products:
+        print("\t\tInserting: '", x, "'", sep="")
+        trie.insert(x)
+
+
+# Driver code
+def main():
+    products = ["bat", "bag", "bassinet", "bread", "cable",
+                "table", "tree", "tarp"]
+    search_word_list = ["ba", "in", "ca", "t"]
+    for i in range(len(search_word_list)):
+        print(i + 1, ".\tProducts:", products, sep="")
+        print("\tSearch keyword: '", search_word_list[i], "'", sep="")
+        suggested_products(products, search_word_list[i])
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

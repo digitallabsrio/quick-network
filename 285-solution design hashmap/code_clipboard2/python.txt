@@ -1,0 +1,55 @@
+from bucket import *
+
+class MyHashMap():
+    # Initialize hash map here
+    def __init__(self, key_space):
+        # It’s better to have a prime number, so there's less collision
+        self.key_space = key_space
+        self.buckets = [Bucket()] * self.key_space
+
+
+    # Function to add value of a given key
+	# in the hash map at the relevant hash address
+    def put(self, key, value):
+        if key== None or value == None:
+            return
+
+        hash_key = key % self.key_space
+        self.buckets[hash_key].update(key, value)
+
+    def get(self, key):
+       # Write your code here
+        pass
+    def remove(self, key):
+       # Write your code here
+        pass
+
+
+# Driver code
+def main():
+    key_space = 11
+    # Creating a hash map of size 11
+    input_map = MyHashMap(key_space)
+    keys = [5, 11, 12, 15, 22, 10]
+    keys_list = [5, 11, 12, 15, 22, 10]
+    values = [100, 200, 400, 500, 1000, 5000]
+    funcs = [ "Put", "Put", "Put", "Put"]
+    func_keys = [ [15, 250], [121, 110], [123, 200], [10, 90]]
+
+    for i in range(len(keys)):
+        input_map.put(keys[i], values[i])
+
+    for i in range(len(funcs)):
+        if funcs[i] == "Put":
+            print(i + 1,  ".\t put(", func_keys[i][0],  ", ", func_keys[i][1],  ")", sep="");
+            if not func_keys[i][0] in keys_list:
+                keys_list.append(func_keys[i][0])
+            input_map.put(func_keys[i][0], func_keys[i][1])
+
+        # Printing the hashmap using our custom print function
+        print("\nHash map:\n")
+        hash_print(input_map, keys_list)
+        print("-"*100)
+
+if __name__ == '__main__':
+    main()

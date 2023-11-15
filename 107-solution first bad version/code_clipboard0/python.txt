@@ -1,0 +1,32 @@
+def first_bad_version(n):
+
+    # Assigning first pointer with the first version that is 1
+    first = 1
+    # Assigning last pointer with n that is the number of versions
+    last = n
+    calls = 0
+    print("\n\tVersions: ", end="")
+    for x in range(first, last):
+        print(x, end=", ")
+    print(last, "\n")
+    print("\tfirst:", first)
+    print("\tlast:", last)
+    return first, calls
+
+# Driver code
+
+
+def main():
+    global v
+    test_case_versions = [38, 13, 29, 40, 23]
+    first_bad_versions = [28, 10, 10, 28, 19]
+
+    for i in range(len(test_case_versions)):
+        v = first_bad_versions[i]
+        print(i + 1,  ".\tNumber of versions: ", test_case_versions[i], sep="")
+        first_bad_version(test_case_versions[i])
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,39 @@
+def is_anagram(str1, str2):
+    if len(str1) != len(str2):
+        return False
+    
+    table = {}
+    
+    for i in str1:
+      if i in table:
+        table[i] += 1
+      
+      else:
+        table[i] = 1
+    
+    for i in str2:
+      if i in table:
+        table[i] -= 1
+      
+      else:
+        return False
+    
+    for key in table:
+        if table[key] != 0:
+            return False
+    
+    return True
+
+def main():
+
+  str1_list = ["listen", "race", "elbow", "cat", "inch"]
+  str2_list = ["silent", "cares", "below", "act", "chin"]
+
+  for i in range(len(str1_list)):
+    print(i + 1, ".\tstr1: \"", str1_list[i], "\"", sep = "")
+    print("\tstr2: \"", str2_list[i], "\"", sep = "")
+    print('\t"', str2_list[i], '" is anagram of "', str1_list[i], '": ',is_anagram(str1_list[i],str2_list[i]), sep = "")
+    print("-" * 100)
+
+if __name__ == '__main__':
+  main()

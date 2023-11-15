@@ -1,0 +1,57 @@
+# Use backtrack function to generate all possible combinations
+def backtrack(index, path, digits, letters, combinations):
+    # If the length of path and digits is same,
+    # we have a complete combination
+    if len(path) == len(digits):
+        # Join the path list into a string and add it to combinations list
+        combinations.append(''.join(path))
+        return  # Backtrack
+    # Get the list of letters using the index and digits[index]
+    possible_letters = letters[digits[index]]
+    if possible_letters:
+        for letter in possible_letters:
+            # Add the current letter to the path
+            path.append(letter)
+            # Recursively explore the next digit
+            backtrack(index + 1, path, digits, letters, combinations)
+            # Remove the current letter from the path before backtracking to explore other combinations
+            path.pop()
+            
+
+def letter_combinations(digits):
+    combinations = []
+    
+    # If the input is empty, immediately return an empty answer array
+    if len(digits) == 0:
+        return []
+
+    #  Mapping the digits to their corresponding letters
+    digits_mapping = {
+        "1": [""],
+        "2": ["a", "b", "c"],
+        "3": ["d", "e", "f"],
+        "4": ["g", "h", "i"],
+        "5": ["j", "k", "l"],
+        "6": ["m", "n", "o"],
+        "7": ["p", "q", "r", "s"],
+        "8": ["t", "u", "v"],
+        "9": ["w", "x", "y", "z"]}
+
+    # Initiate backtracking with an empty path and starting index of 0
+
+    backtrack(0, [], digits, digits_mapping, combinations)
+    return combinations
+
+
+def main():
+    digits_array = ["23", "73", "426", "78", "925", "2345"]
+    counter = 1
+    for digits in digits_array:
+        print(counter, ".\t All letter combinations for '",
+              digits, "': ", letter_combinations(digits), sep="")
+        counter += 1
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

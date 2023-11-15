@@ -1,0 +1,58 @@
+from point import Point
+import heapq
+
+def k_closest(points, k):
+    points_max_heap = []
+
+    # put first 'k' points in the max heap
+    for i in range(k):
+        heapq.heappush(points_max_heap, points[i])
+
+    # go through the remaining points of the input array, if a 
+    # point is closer to the origin than the top point of the 
+    # max-heap, remove the top point from heap and add the point 
+    # from the input array
+    for i in range(k, len(points)):
+        if points[i].distance_from_origin() \
+         < points_max_heap[0].distance_from_origin():
+            heapq.heappop(points_max_heap)
+            heapq.heappush(points_max_heap, points[i])
+
+    # the heap has 'k' points closest to the origin, return 
+    # them in a list
+    return list(points_max_heap)
+
+
+# Function used to convert list to string
+def lst_to_str(lst):
+    out = "["
+    for i in range(len(lst)-1):
+        out += str(lst[i]) + ", "
+    out += str(lst[len(lst)-1]) + "]"
+    return out
+
+# Driver code
+def main():
+    points_one = [Point(1, 3), Point(3, 4), Point(2, -1)]
+    points_two = [Point(1, 3), Point(2, 4), Point(2, -1), Point(-2, 2),
+        Point(5, 3), Point(3, -2)]
+    points_three = [Point(1, 3), Point(5, 3), Point(3, -2), Point(-2, 2)]
+    points_four = [Point(2, -1), Point(-2, 2), Point(1, 3), Point(2, 4)]
+    points_five = [Point(1, 3), Point(2, 4), Point(2, -1), Point(-2, 2), 
+        Point(5, 3), Point(3, -2), Point(5, 3), Point(3, -2)]
+
+    k_list = [2, 3, 1, 4, 5]
+    points = [points_one, points_two, points_three, points_four, points_five]
+
+    for i in range(len(k_list)):
+        result = k_closest(points[i], k_list[i])
+        print(i + 1, ".\tSet of points: ", sep="", end='')
+        print(lst_to_str(points[i]))
+        print("\tk:", k_list[i])
+        print("\tHere are the k =", k_list[i], "points closest to the", \
+        "origin (0, 0): ", end='')
+        print(lst_to_str(result))
+        print("-"*100)
+
+if __name__ == '__main__':
+    main()

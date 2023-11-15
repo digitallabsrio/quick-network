@@ -1,0 +1,53 @@
+class UnionFind:
+
+    def __init__(self, n):
+        self.parent = []
+        self.rank = rank = [1] * (n + 1)
+        for i in range(n + 1):
+            self.parent.append(i)
+
+    def find_parent(self, v):
+        if self.parent[v] != v:
+            self.parent[v] = self.find_parent(self.parent[v])
+        return self.parent[v]
+
+    # Function to find which subset a particular element belongs to
+    # Returns FALSE if both vertices have the same parent, otherwise, updates the parent and rank lists by making a connection based on the passed edge
+    # Returns TRUE if no cycle exits in the graph
+    def union(self, v1, v2):
+
+        print("\n\tChecking if the vertices have the same parent")
+        print("\t\tEdge: [", v1, ", ", v2, "]", sep = "")
+        print("\t\tFirst vertex: ", v1, sep = "")
+        print("\t\tSecond vertex: ", v2, sep = "")
+
+        #Find the root parents of v1 and v2
+        p1, p2 = self.find_parent(v1), self.find_parent(v2)
+        print("\t\t\tParent of the first vertex: ", p1, sep = "")
+        print("\t\t\tParent of the second vertex: ", p2, sep = "")
+
+        # If both parents are the same, a cycle exists and v1,v2 is the redundant edge
+        if p1 == p2:
+            print("\t\tSince both vertices have the same parent, this is a redundant edge")
+            return False
+
+        # Updates the parent and rank lists otherwise 
+        elif self.rank[p1] > self.rank[p2]:
+            print("\t\tThe vertices don't have the same parent, updating parent and rank lists")
+            print("\t\t\tParent list: ", self.parent, " ⟶ ", sep = "", end = "")
+            self.parent[p2] = p1
+            print(self.parent)
+            print("\t\t\tRank list: ", self.rank, " ⟶ ", sep = "", end = "")
+            self.rank[p1] = self.rank[p1] + self.rank[p2]
+            print(self.rank)
+
+        else:
+            print("\t\tThe vertices don't have the same parent, updating parent and rank lists")
+            print("\t\t\tParent list: ", self.parent, " ⟶ ", sep = "", end = "")
+            self.parent[p1] = p2
+            print(self.parent)
+            print("\t\t\tRank list: ", self.rank, " ⟶ ", sep = "", end = "")
+            self.rank[p2] = self.rank[p2] + self.rank[p1]
+            print(self.rank)
+        
+        return True

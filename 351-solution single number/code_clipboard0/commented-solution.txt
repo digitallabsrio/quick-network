@@ -1,0 +1,23 @@
+def single_number(nums):
+    # Initialize the result variable with a 0 value
+    result = 0
+    # Loop through every element
+    for num in nums:
+    # Take bitwise xor of all elements with the result
+        result ^= num
+    # return the result that contains single number
+    return result
+
+
+# Driver code
+def main():
+    inputs = [[1, 2, 2, 3, 3, 1, 4], [2, 2, 1], [4, 1, 2, 1, 2], [-4, -1, -2, -1, -2], [25]]
+
+    for i in range(len(inputs)):
+        print(i + 1, ".\tFinding the element which appeared once in the array: ", inputs[i], sep="")
+        print("\tResult: ", single_number(inputs[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

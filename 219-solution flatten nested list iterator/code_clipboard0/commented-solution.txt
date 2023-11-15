@@ -1,0 +1,129 @@
+from nested_integers import NestedIntegers
+
+
+class NestedIterator:
+
+    # NestedIterator constructor initializes the stack using the 
+    # given nested_list list
+    def __init__(self, nested_list):
+        self.nested_list_stack = list(reversed(nested_list))
+
+    # has_next() will return True if there are still some integers in the 
+    # stack (that has nested_list elements) and, otherwise, will return False.
+    def has_next(self):
+        # Iterate in the stack while the stack is not empty
+        while len(self.nested_list_stack) > 0: 
+            # Save the top value of the stack
+            top = self.nested_list_stack[-1]
+            # Check if the top value is integer, if true return True, 
+            # if not continue
+            if top.is_integer():
+                return True
+            # If the top is not an integer, it must be the list of integers
+            # Pop the list from the stack and save it in the top_list
+            top_list = self.nested_list_stack.pop().get_list()
+            # Save the length of the top_list in i and iterate in the list
+            i = len(top_list) - 1
+            while i >= 0:
+                # Append the values of the nested list into the stack
+                self.nested_list_stack.append(top_list[i])
+                i -= 1
+        return False
+
+    # next will return the integer from the nested_list 
+    def next(self): 
+        # Check if there is still an integer in the stack
+        if self.has_next():
+            # If true pop and return the top of the stack
+            return self.nested_list_stack.pop().get_integer()
+        return None
+
+
+# Driver code
+def main():
+
+    inputs = [
+      "[1, [2, 3], 4]",
+      "[3, [2, 3, 4], 4, [2, 3]]",
+      "[[2, 3], 3, [2, 3], 4, [2, 3, 4, 5]]",
+      "[1, [3, [4, [5, 6], 7], 8], 9]",
+      "[[2, 3, [2, 3]]]"
+    ]
+    itr = []
+
+    # Test Case #1
+    nested_list = []
+    l1 = NestedIntegers()
+    nested_list.append(NestedIntegers(1))
+    l1.add(NestedIntegers(2))
+    l1.add(NestedIntegers(3))
+    nested_list.append(l1)
+    nested_list.append(NestedIntegers(4))
+    itr.append(NestedIterator(nested_list))
+
+    # Test Case #2
+    nested_list = []
+    l2 = NestedIntegers()
+    nested_list.append(NestedIntegers(3))
+    l2.add(NestedIntegers(2))
+    l2.add(NestedIntegers(3))
+    l2.add(NestedIntegers(4))
+    nested_list.append(l2)
+    nested_list.append(NestedIntegers(4))
+    nested_list.append(l1)
+    itr.append(NestedIterator(nested_list))
+
+    # Test Case #3
+    nested_list = []
+    l3 = NestedIntegers()
+    nested_list.append(l1)
+    nested_list.append(NestedIntegers(3))
+    l3.add(NestedIntegers(2))
+    l3.add(NestedIntegers(3))
+    l3.add(NestedIntegers(4))
+    l3.add(NestedIntegers(5))
+    nested_list.append(l1)
+    nested_list.append(NestedIntegers(4))
+    nested_list.append(l3)
+    itr.append(NestedIterator(nested_list))
+
+    # Test case #4
+    nested_list = []
+    nested_list.append(NestedIntegers(1))
+    l1 = NestedIntegers()
+    l1.add(NestedIntegers(5))
+    l1.add(NestedIntegers(6))
+    l2 = NestedIntegers()
+    l2.add(NestedIntegers(4))
+    l2.add(l1)
+    l2.add(NestedIntegers(7))
+    l3 = NestedIntegers()
+    l3.add(NestedIntegers(3))
+    l3.add(l2)
+    l3.add(NestedIntegers(8))
+    nested_list.append(l3)
+    nested_list.append(NestedIntegers(9))
+    itr.append(NestedIterator(nested_list))
+
+    # TEST CASE 5: [[2, 3, [2, 3]]]
+    nested_list = []
+    l2 = NestedIntegers()
+    l2.add(NestedIntegers(2))
+    l2.add(NestedIntegers(3))
+    l3 = NestedIntegers()
+    l3.add(NestedIntegers(2))
+    l3.add(NestedIntegers(3))
+    l3.add(l2)
+    nested_list.append(l3)
+    itr.append(NestedIterator(nested_list))
+
+    for i in range(len(itr)):
+        print(i + 1, ".\tOriginal structure: ", inputs[i], sep="")
+        print("\n\tOutput:\n")
+        while itr[i].has_next():
+            print("\titr.next(): ", itr[i].next())
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

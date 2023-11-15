@@ -1,0 +1,44 @@
+def group_anagrams(strs):
+    # Hash map for counting the characters
+    res = {}
+    for s in strs:
+        # A place for every single letter in our string
+        count = [0] * 26
+        # Compute the frequency for every string
+        for i in s:
+            # Calculating the value from 1 to 26 for the letter
+            index = ord(i) - ord('a')
+            # Increasing its frequency in the hash map
+            count[index] += 1
+        # Each element in this tuple represents the frequency of an
+        # English letter in the corresponding title
+        key = tuple(count)
+        if key in res:
+            res[key].append(s)
+        else:
+            # We add the string as an anagram if it 
+            # matched the content of our 'res' hash map
+            res[key] = [s]
+    # return the result in the form of a list
+    return list(res.values())
+
+
+
+# Driver code
+def main():
+    titles = [
+        ["eat", "beat", "neat", "tea"],
+        ["duel", "dule", "speed", "spede", "deul", "cars"],
+        ["eat", "tea", "tan", "ate", "nat", "bat"],
+        [""],
+        ["sword", "swords"], ["pot", "top", "opt"]]
+
+    for i in range(len(titles)):
+        print((i+1), ".\tThe Grouped Anagrams for the list ",
+              titles[i], " are:", sep="")
+        print("\t", list(group_anagrams(titles[i])), sep="")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,59 @@
+def first_bad_version(n):
+
+    # Assigning first pointer with the first version that is 1
+    first = 1
+    # Assigning last pointer with n that is the number of versions
+    last = n
+    calls = 0
+    print("\n\tVersions: ", end="")
+    for x in range(first, last):
+        print(x, end=", ")
+    print(last, "\n")
+    # Binary search to find the target version
+    while first < last:  # Now we will search the entire list
+        mid = first + (last - first) // 2;
+
+        # is_bad_version() is the API function that returns true
+        # or false depending upon whether the provided version ID
+        # is bad or good
+        if is_bad_version(mid):  # Calling the API function to determine if the version is bad
+            last = mid
+            print(f"\tVersion {mid} is bad, so we search in the first half of the list.\n")
+        else:
+            first = mid + 1
+            print(f"\tVersion {mid} is good, so we search in the second half of the list.\n")
+        calls += 1
+        print("\t{:<4}{:<5}{:<4}{:<7}{:<4}{:<7}{:<4}{:<8}{:<5}".format( \
+            "|", "first", "|", "last", "|", "mid", "|", "calls", "|"))
+        print("\t", "-" * 42)
+        print("\t{:<4}{:<5}{:<5}{:<6}{:<5}{:<6}{:<6}{:<6}{:<8}".format( \
+            "|", first, "|", last, "|", mid, "|", calls, "|"))
+
+        print("\n\n\tVersions to check: ", end="")
+        for x in range(first, last):
+            print(x, end=", ")
+        print(last, "\n")
+
+    return first, calls
+
+# Driver code
+
+
+def main():
+    global v
+    test_case_versions = [38, 13, 29, 40, 23]
+    first_bad_versions = [28, 10, 10, 28, 19]
+
+    for i in range(len(test_case_versions)):
+        v = first_bad_versions[i]
+        if i > 0:
+            print()
+        print(i + 1,  ".\tNumber of versions: ", test_case_versions[i], sep="")
+        result = first_bad_version(test_case_versions[i])
+        print("\n\tFirst bad version: ",
+              result[0], ". Found in ", result[1], " API calls.", sep="")
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,96 @@
+from union_find import UnionFind
+
+
+def print_grid(grid):
+    for i in grid:
+        print("\t\t", i)
+
+def num_islands(grid):
+    # If the grid is empty, then return 0
+    if not grid:
+        return 0
+
+    # Get the number of rows and columns in the grid
+    cols = len(grid[0])
+    rows = len(grid)
+
+    # Create a Union Find object to represent the islands in the grid
+    union_find = UnionFind(grid)
+
+    # Iterate over each cell in the grid
+    for r in range(rows):
+        for c in range(cols):
+
+            # If the current cell is a land, then mark it as visited
+            if grid[r][c] == '1':
+                grid[r][c] = '0'
+
+                # Check the horizontal and vertical neighbors of the current cell
+                # If any of the neighbors are also lands, then unite the current cell with the neighbor
+                if r - 1 >= 0 and grid[r - 1][c] == '1':
+                    union_find.union(r * cols + c, (r - 1) * cols + c)
+                if r + 1 < rows and grid[r + 1][c] == '1':
+                    union_find.union(r * cols + c, (r + 1) * cols + c)
+                if c - 1 >= 0 and grid[r][c - 1] == '1':
+                    union_find.union(r * cols + c, r * cols + c - 1)
+                if c + 1 < cols and grid[r][c + 1] == '1':
+                    union_find.union(r * cols + c, r * cols + c + 1)
+
+    # Return the number of islands in the grid
+    count = union_find.get_count()
+    return count
+
+
+# Driver code
+def main():
+
+    # Example grids
+    grid1 = [
+        ['1', '1', '1'],
+        ['0', '1', '0'],
+        ['1', '0', '0'],
+        ['1', '0', '1']
+    ]
+
+    grid2 = [
+        ['1', '1', '1', '1', '0'],
+        ['1', '0', '0', '0', '1'],
+        ['1', '0', '0', '1', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '1', '0', '1', '1']
+    ]
+
+    grid3 = [
+        ['1', '1', '1', '1', '0'],
+        ['1', '0', '0', '0', '1'],
+        ['1', '1', '1', '1', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '1', '0', '1', '1']
+    ]
+
+    grid4 = [
+        ['1', '0', '1', '0', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '0', '1', '0', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '0', '1', '0', '1']
+    ]
+
+    grid5 = [
+        ['1', '0', '1'],
+        ['0', '0', '0'],
+        ['1', '0', '1']
+    ]
+
+    inputs = [grid1, grid2, grid3, grid4, grid5]
+    num = 1
+    for i in inputs:
+        print(num, ".\tGrid:", sep = "")
+        print_grid(i)
+        print('\n\t Output :', num_islands(i))
+        print('-' * 100)
+        num += 1
+
+
+if __name__ == "__main__":
+    main()

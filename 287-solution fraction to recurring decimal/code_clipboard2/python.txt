@@ -1,0 +1,73 @@
+def fraction_to_decimal(numerator, denominator):
+    result, remainder_map = "", {}
+    print("\n\tnumerator:", numerator)
+    print("\tdenominator:", denominator)
+    # if the numerator is 0, then return 0 in the string
+    if numerator == 0:
+        print("\tAs numerator is 0, so return 0.")
+        return '0'
+
+    # If the numerator or denominator is negative, then append "-" to the result
+    if (numerator < 0) ^ (denominator < 0):
+        print("\tAs numerator or denominator is negative. Appending - to the result")
+        result += '-'
+
+        # Make the numerator and denominator positive after adding "-" to the result
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+
+    # Calculate the quotient
+    quotient = numerator / denominator
+    print("\n\tquotient:", int(quotient))
+    # Calculate the remainder
+    remainder = (numerator % denominator) * 10
+    print("\tremainder:", int(remainder))
+    # Append the quotient part in the result
+    result += str(int(quotient))
+    print("\tresult:", result)
+    # if the remainder is 0, then return the result
+    if remainder == 0:
+        return result
+    else:
+        print("\n\tAs remainder is not zero. Append . to the result.")
+    # Append . before the right part
+        result += "."
+        print("\tNow result is:", result)
+    # Right side of the decimal point
+        while remainder != 0:
+            print("\tremainder:", remainder)
+        # if digits are repeating, it means the remainder is already present in the hashmap
+            if remainder in remainder_map.keys():
+                # Convert fraction to recurring decimal
+                beginning = remainder_map.get(remainder)
+                left = result[0: beginning]
+                right = result[beginning: len(result)]
+                result = left + "(" + right + ")"
+                print("\n\tAs remainder", remainder, "is in hashmap", remainder_map, "\n\tbeginning:",
+                      beginning, "\tleft:", left, "\tright:", right, "\tresult:", result)
+                return result
+
+        # Otherwise put the remainder in the hashmap
+            print("\tPutting remainder in hashmap...")
+            remainder_map[remainder] = len(result)
+            quotient = remainder / denominator
+            result += str(int(quotient))
+            remainder = (remainder % denominator) * 10
+        return result
+# Driver code
+
+
+def main():
+    inputs = [(0, 4), (4, 2), (5, 333), (2, 3), (47, 18),
+              (93, 7), (-5, 333), (47, -18), (-4, -2)]
+
+    for i in range(len(inputs)):
+
+        print(i + 1,  ".\tInput: fraction_to_decimal", inputs[i], sep="")
+        result = fraction_to_decimal(inputs[i][0], inputs[i][1])
+        print("\n\tOutput: ", result, sep="")
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

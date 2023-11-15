@@ -1,0 +1,83 @@
+from union_find import UnionFind
+
+
+def print_grid(grid):
+    for i in grid:
+        print("\t\t", i)
+
+def num_islands(grid):
+    # If the grid is empty, then return 0
+    if not grid:
+        return 0
+
+    # Create a Union Find object to represent the islands in the grid
+    union_find = UnionFind(grid)
+
+    # Get the parent list and the count of cell 1s from the Union Find object
+    parent_list = union_find.parent
+    count = union_find.get_count()
+    
+    # Return the parent list along with the number of 1s in the grid
+    return [parent_list, count]
+
+
+# Driver code
+def main():
+    
+    # Example grids
+    # Test case 01
+    grid1 = [
+        ['1', '1', '1'],
+        ['0', '1', '0'],
+        ['1', '0', '0'],
+        ['1', '0', '1']
+    ]
+
+    # Test case 02
+    grid2 = [
+        ['1', '1', '1', '1', '0'],
+        ['1', '0', '0', '0', '1'],
+        ['1', '0', '0', '1', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '1', '0', '1', '1']
+    ]
+
+    # Test case 03
+    grid3 = [
+        ['1', '1', '1', '1', '0'],
+        ['1', '0', '0', '0', '1'],
+        ['1', '1', '1', '1', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '1', '0', '1', '1']
+    ]
+
+    # Test case 04
+    grid4 = [
+        ['1', '0', '1', '0', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '0', '1', '0', '1'],
+        ['0', '1', '0', '1', '0'],
+        ['1', '0', '1', '0', '1']
+    ]
+
+    # Test case 05
+    grid5 = [
+        ['1', '0', '1'],
+        ['0', '0', '0'],
+        ['1', '0', '1']
+    ]
+
+    inputs = [grid1, grid2, grid3, grid4, grid5]
+    num = 1
+
+    for i in inputs:
+        print(num, ".\tGrid:", sep = "")
+        print_grid(i)
+        print('\n\tParent list:', num_islands(i)[0]
+        ,'\n\tNumber of 1s: ', num_islands(i)[1], sep = "")
+        print('-' * 100)
+        num += 1
+
+
+if __name__ == "__main__":
+    main()

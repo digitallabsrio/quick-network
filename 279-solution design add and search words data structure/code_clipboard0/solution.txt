@@ -1,0 +1,96 @@
+from trie_node import *
+
+
+class WordDictionary:
+    # Initialize the root with TrieNode and set 
+    # the 'can_find' boolean to FALSE
+    def __init__(self):
+        self.root = TrieNode()
+        self.can_find = False
+
+
+    # Function to add a new word to the dictionary
+    def add_word(self, word):
+        n = len(word)
+        cur_node = self.root
+        for i, val in enumerate(word):
+            index = ord(val) - ord('a')
+            if cur_node.children[index] is None:
+                cur_node.children[index] = TrieNode()
+            cur_node = cur_node.children[index]
+            if i == n - 1:
+                if cur_node.complete:
+                    print("\tWord already present!")
+                    return
+                cur_node.complete = True
+        print("\tWord added successfully!")
+
+
+    # Function to search for a word in the dictionary
+    def search_word(self, word):
+        self.can_find = False
+        self.search_helper(self.root, word, 0)
+        return self.can_find
+
+
+    def search_helper(self, node, word, i):
+        if self.can_find:
+            return
+        if not node:
+            return
+        if len(word) == i:
+            if node.complete:
+                self.can_find = True
+            return
+
+        if word[i] == '.':
+            for j in range(ord('a'), ord('z') + 1):
+                self.search_helper(node.children[j - ord('a')], word, i + 1)
+        else:
+            index = ord(word[i]) - ord('a')
+            self.search_helper(node.children[index], word, i + 1)
+
+
+    # Function to get all words in the dictionary
+    def get_words(self):
+        words_list = []
+        if not self.root:
+            return []
+        return self.dfs(self.root, "", words_list)
+
+    def dfs(self, node, word, words_list):
+        if not node:
+            return words_list
+        if node.complete:
+            words_list.append(word)
+
+        for j in range(ord('a'), ord('z') + 1):
+            prefix = word + chr(j)
+            words_list = self.dfs(node.children[j - ord('a')], prefix, words_list)
+        return words_list
+
+
+# Driver code
+def main():
+    obj = WordDictionary()
+    words = ["add", "sky", "hello", "multi", "addition", "sky", "multiply", "table"]
+    i = 1
+    for w in words:
+        print(i, ".\tAdding word: '", w, "'", sep="")
+        obj.add_word(w)
+        print("-" * 100, sep="")
+        i += 1
+
+    wordSearch = ["helo", "multiple", "...le", "..llo", "..r"]
+    for v in wordSearch:
+        print(i, ".\tSearching word: '", v, "'", sep="")
+        print("\t", obj.search_word(v), sep="")
+        print("-" * 100, sep="")
+        i += 1
+
+    print(i, ".\tGetting all words: ", obj.get_words(), sep="")
+    print("-" * 100, sep="")
+
+
+if __name__ == "__main__":
+    main()

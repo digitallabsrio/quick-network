@@ -1,0 +1,50 @@
+def back_track(n, left_count, right_count, output, result):
+    # Base case where count of left and right braces is "n"
+    if left_count >= n and right_count >= n:
+        result.append("".join(output))
+
+    # Case where we can still append left braces
+    if left_count < n:
+        output.append('(')
+        back_track(n, left_count + 1,
+                   right_count, output, result)
+        output.pop()
+
+    # Case where we append right braces if the current count
+    # of right braces is less than the count of left braces
+    if right_count < left_count:
+        output.append(')')
+        back_track(n, left_count,
+                   right_count + 1, output, result)
+        output.pop()
+
+
+def generate_combinations(n):
+    result = []
+    output = []
+    back_track(n, 0, 0, output, result)
+
+    return result
+
+
+def print_result(result):
+    for rs in result:
+        print("\t\t ", rs)
+
+
+# Driver code
+def main():
+    n = [1, 2, 3, 4, 5]
+
+    for i in range(len(n)):
+        print(i + 1, ".\t n = ", n[i], sep="")
+        print("\t All combinations of valid balanced parentheses: ")
+
+        result = generate_combinations(n[i])
+        print_result(result)
+
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

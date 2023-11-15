@@ -1,0 +1,39 @@
+from queue import PriorityQueue
+from collections import defaultdict
+
+def network_delay_time(times, n, k):
+    # Create adjacency dictonary
+    adjacency = defaultdict(list)
+    # Store source as key, and destination and time as values
+    for src, dst, t in times:
+        print("\t Adjacency dictionary:", dict(adjacency))
+        adjacency[src].append((dst, t)) 
+
+    print("\t Adjacency dictionary:", dict(adjacency))
+
+    return -1
+
+
+# Driver code
+def main():
+    time = [
+                [[2, 1, 1], [3, 2, 1], [3, 4, 2]],
+                [[2, 1, 1], [1, 3, 1], [3, 4, 2], [5, 4, 2]],
+                [[1, 2, 1], [2, 3, 1], [3, 4, 1]],
+                [[1, 2, 1], [2, 3, 1], [3, 5, 2]],
+                [[1, 2, 2]]
+            ]
+
+    n = [4, 5, 4, 5, 2]
+    k = [3, 1, 1, 1, 2]
+
+    for i in range(len(time)):
+        print(i + 1, ".\t times = ", time[i], sep="")
+        print("\t number of nodes 'n' = ", n[i], sep="")
+        print("\t starting node 'k' = ", k[i], "\n", sep="")
+        print("\t Minimum amount of time required = ", network_delay_time(time[i], n[i], k[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

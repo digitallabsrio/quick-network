@@ -1,0 +1,54 @@
+from graph_utility import *
+
+def clone_helper(root, nodes_completed):
+    # If the root node is None, return None
+    if root == None:
+      return None
+
+    # Create a new Node with the same data as the root node
+    cloned_node = Node(root.data)
+    # Add the root node and its clone to the nodes_completed hash map
+    nodes_completed[root] = cloned_node
+
+    # Iterate through the neighbors of the root node
+    for p in root.neighbors:
+      # Retrieve the value of key p in nodes_completed hash map.
+      # If it exists, assign the corresponding cloned node to x.
+      # This checks if neighbor node p has already been cloned.
+      x = nodes_completed.get(p)
+      # If the neighbor is not cloned yet, recursively clone it
+      if not x:
+        cloned_node.neighbors += [clone_helper(p, nodes_completed)]
+      # If the neighbor is already cloned, add the cloned neighbor to the new
+      # node's neighbors
+      else:
+        cloned_node.neighbors += [x]
+    return cloned_node
+
+def clone(root):
+    # Initialize an empty dictionary to keep track of cloned nodes
+    nodes_completed = {}
+    # Call the recursive function to clone the graph starting from the root node
+    return clone_helper(root, nodes_completed)
+
+# Driver code
+def main():
+    data = [[[2, 3], [1, 3], [1, 2]],
+            [[2, 4], [1, 3], [2, 4], [1, 3]],
+            [[2, 5], [1, 3], [2, 4], [3, 5], [1, 4]],
+            [[2], [1]],
+            [[2, 6], [1, 3], [2, 4], [3, 5], [4, 6], [1, 5]],
+            [[]]
+            ]
+
+    for i in range (len(data)):
+      node1 = create_graph(data[i])
+      print(i+1, ".\t Original Graph: ", create_2D_list(node1), "\n", sep="")
+      print_graph(node1)
+      print()
+      cloned_root = clone(node1)
+      print("\t Cloned Graph: ", create_2D_list(cloned_root), "\n", sep="")
+      print_graph(node1)
+      print("-"*100)  
+
+main()

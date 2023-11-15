@@ -1,0 +1,93 @@
+import random
+
+class TimeStamp:
+    def __init__(self):
+        self.values_dict = {}
+        self.timestamps_dict = {}
+
+    #  Set TimeStamp data variables
+    def set_value(self, key, value, timestamp):
+
+        # Check if the given key already exists in the values dictionary.
+        if key in self.values_dict:
+            # Check if the given timestamp is in increasing order, coming
+            # timestamp must be greater than or equal to the previous one.
+            if timestamp < self.timestamps_dict[key][- 1]:
+                value = self.timestamps_dict[key][- 1]
+            
+            # Check if the given value of the key already exists in the values dictionary.
+            elif value != self.values_dict[key][len(self.values_dict[key])-1]:
+                # Store values for the given key in the values dictionary.
+                self.values_dict[key].append(value)
+                # Store timestamp for the given key in the timestamp dictionary.
+                self.timestamps_dict[key].append(timestamp)
+        else:
+            # Store value and key for the given key in the values dictionary.
+            self.values_dict[key] = [value]
+            # Store timestamp for the given key in the timestamp dictionary.
+            self.timestamps_dict[key] = [timestamp]
+
+    # Find the index of right most occurrence of the given timestamp
+    # using binary search
+    def search_index(self, n, key, timestamp):
+        left = 0
+        j=right = n
+        mid = 0
+        while left < right:
+            # It will return the mid of the current dictionary.
+            mid = (left+right) >> 1
+
+            # Increase index value if required index is less than the
+            # current index otherwise decrease it.
+            if self.timestamps_dict[key][mid] <= timestamp:
+                left = mid + 1
+            else:
+                right = mid
+        return left-1
+
+    # Get time_stamp data variables
+    def get_value(self, key, timestamp):
+        # Check if the given key is present in the values dictionary.
+        if key not in self.values_dict:
+            # Return empty string if item does not exist.
+            return ""
+        else:
+            # Find the right most occurrence of the given timestamp.
+            index = self.search_index(len(self.timestamps_dict[key]),
+                                      key, timestamp)
+            # If the timestamp exist in the timestamp dictionary, return the
+            # value with that timestamp.
+            if index > -1:
+                return self.values_dict[key][index]
+
+            # return empty string if the timestamp does not exist.
+            return ""
+
+# Driver code
+def main():
+    ts = TimeStamp()
+    num = 1
+    random_value = 0
+    input = (
+            ("course", "OOP", 3),
+            ("course", "PF", 5),
+            ("course", "OS", 7),
+            ("course", "ALGO", 9),
+            ("course", "DB", 10)
+        )
+
+    for i in input:
+        print(num, ".\tAdd value: (", '"', i[0], '"',
+                   ", ", '"', i[1], '"', ", ", i[2], ")", sep="")
+        ts.set_value(i[0], i[1], i[2])
+        random_value = random.randint(0, 10)
+        print("\n\tGet value for:")
+        print("\t\tKey = course  \n\t\tTimestamp = ", random_value, sep="")
+        print("\n\tReturned value = ", '"',
+              ts.get_value("course", random_value), '"', sep="")
+        num += 1
+        print("-" * 100, sep="")
+
+
+if __name__ == "__main__":
+    main()

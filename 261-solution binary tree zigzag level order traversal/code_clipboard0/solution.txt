@@ -1,0 +1,62 @@
+from BinaryTree import *
+from TreeNode import *
+from collections import deque
+
+def zigzag_level_order(root):
+    if root is None:
+        return []
+
+    results = []
+    dq = deque([root])
+    reverse = False
+
+    while len(dq):
+        size = len(dq)
+        results.insert(len(results), [])
+
+        for i in range(size):
+            if not reverse:
+                node = dq.popleft()
+                results[len(results) - 1].append(node.data)
+            
+                if node.left:
+                    dq.append(node.left)
+                if node.right:
+                    dq.append(node.right)
+            else:
+                node = dq.pop()
+                results[len(results) - 1].append(node.data)
+
+                if node.right:
+                    dq.appendleft(node.right)
+                if node.left:
+                    dq.appendleft(node.left) 
+
+        reverse = not reverse
+
+    return results
+
+# Driver code
+def main():
+    
+    input1 = [TreeNode(100), TreeNode(50), TreeNode(200), TreeNode(25), TreeNode(75), TreeNode(350)]
+    tree1 = BinaryTree(input1)
+
+    input2 = [TreeNode(25), TreeNode(50), TreeNode(75), TreeNode(100), TreeNode(200), TreeNode(350)]
+    tree2 = BinaryTree(input2)
+    
+    input3 = [TreeNode(350), TreeNode(200), TreeNode(100), TreeNode(75), TreeNode(50), TreeNode(25)]
+    tree3 = BinaryTree(input3)
+
+    tree4 = BinaryTree([TreeNode(100)])
+
+    roots = [tree1.root, tree2.root, tree3.root, tree4.root, None]
+
+    for i in range(len(roots)):
+        print(i+1, ".\tBinary Tree:", sep = "")
+        display_tree(roots[i])
+        print("\n\tThe zigzag level order traversal is:", zigzag_level_order(roots[i]))
+        print("\n", "-"*100, "\n", sep = "")
+
+if __name__ == '__main__':
+    main()

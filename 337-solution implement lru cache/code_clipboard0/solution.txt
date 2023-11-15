@@ -1,0 +1,78 @@
+from linked_list import LinkedList
+
+
+class LRUCache:
+    # Initializes an LRU cache with the capacity size
+    def __init__(self, capacity):
+        self.cache_capacity = capacity
+        self.cache_map = {}
+        self.cache_list = LinkedList()
+
+    # Returns the value of the key, or -1 if the key does not exist.
+    def get(self, key):
+        found_itr = None
+        if key in self.cache_map:
+            found_itr = self.cache_map[key]
+        else:
+            return -1
+
+        list_iterator = found_itr
+        self.cache_list.move_to_head(found_itr)
+
+        return list_iterator.pair[1]
+
+    # Adds a new key-value pair or updates an existing key with a new value
+    def set(self, key, value):
+        if key in self.cache_map:
+            found_iter = self.cache_map[key]
+            list_iterator = found_iter
+            self.cache_list.move_to_head(found_iter)
+            list_iterator.pair[1] = value
+            return
+
+        if len(self.cache_map) == self.cache_capacity:
+            key_tmp = self.cache_list.get_tail().pair[0]
+            self.cache_list.remove_tail()
+            del self.cache_map[key_tmp]
+
+        self.cache_list.insert_at_head([key, value])
+        self.cache_map[key] = self.cache_list.get_head()
+
+    def print(self):
+        print("Cache current size: ", self.cache_list.size,
+                ", ", end="")
+        print("Cache contents: {", end="")
+        node = self.cache_list.get_head()
+        while node:
+            print("{", str(node.pair[0]), ",", str(node.pair[1]),
+                    "}", end="")
+            node = node.next
+            if node:
+                print(", ", end="")
+        print("}")
+        print("-"*100, "\n")
+
+
+def main():
+    # Creating a cache of size 2
+    cache_capacity = 2
+    cache = LRUCache(cache_capacity)
+    print("Initial state of cache")
+    print("Cache capacity: " + str(cache_capacity))
+    cache.print()
+
+    keys = [10, 10, 15, 20, 15, 25, 5]
+    values = ["20", "get", "25", "40", "get", "85", "5"]
+
+    for i in range(len(keys)):
+        if values[i] == "get":
+            print("Getting by Key: ", keys[i])
+            print("Cached value returned: ", cache.get(keys[i]))
+        else:
+            print("Setting cache: Key: ", keys[i], ", Value: ", values[i])
+            cache.set(keys[i], int(values[i]))
+        cache.print()
+
+
+if __name__ == '__main__':
+    main()

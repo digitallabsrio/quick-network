@@ -1,0 +1,59 @@
+from BinaryTree import *
+
+class Solution:
+    def __init__(self):
+        self.lca = None
+
+    def lowest_common_ancestor(self, root, p, q):
+        self.lowest_common_ancestor_rec(root, p, q)
+        return self.lca
+
+    # helper function to find the lowest common ancestor recursively
+    def lowest_common_ancestor_rec(self, current_node, p, q):
+        if not current_node:
+            return False
+        
+        left, right, mid = False, False, False
+
+        if p == current_node or q == current_node:
+            mid = True
+
+        left = self.lowest_common_ancestor_rec(current_node.left, p, q)
+
+        if not self.lca:
+            right = self.lowest_common_ancestor_rec(current_node.right, p, q)
+
+        if mid + left + right >= 2:
+            self.lca = current_node
+        
+        return mid or left or right
+
+# driver code   
+def main():
+    input_trees = [[TreeNode(100), TreeNode(50), TreeNode(200), TreeNode(25), TreeNode(75), TreeNode(350)],
+        [TreeNode(100), TreeNode(200), TreeNode(75), TreeNode(50), TreeNode(25), TreeNode(350)],
+        [TreeNode(350), TreeNode(100), TreeNode(75), TreeNode(50), TreeNode(200), TreeNode(25)],
+        [TreeNode(100), TreeNode(50), TreeNode(200), TreeNode(25), TreeNode(75), TreeNode(350)],
+        [TreeNode(25), TreeNode(50), TreeNode(75), TreeNode(100), TreeNode(200), TreeNode(350)]]
+    
+    input_nodes = [
+        [25, 75],
+        [50, 350],
+        [100, 200],
+        [50, 25],
+        [350, 200]
+    ]
+
+    for i in range(len(input_trees)):
+        solution = Solution()
+        tree = BinaryTree(input_trees[i])
+        print(i+1, ".\tBinary tree:", sep="")
+        display_tree(tree.root)
+        print("\tp = ", input_nodes[i][0])
+        print("\tq = ", input_nodes[i][1])
+        lca = solution.lowest_common_ancestor(tree.root, tree.find(input_nodes[i][0]), tree.find(input_nodes[i][1]))
+        print("\n\tLowest common ancestor: ", lca.data, sep="")
+        print("-"*100)
+
+if __name__ == "__main__":
+    main()

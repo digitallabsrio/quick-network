@@ -1,0 +1,38 @@
+from collections import defaultdict
+
+def number_of_paths(n, corridors):
+    # Create a dictionary to store neighbors of each room
+    neighbours = defaultdict(set)
+    # Counter to store the number of cycles
+    cycles = 0
+
+    # Iterate over each corridor 
+    for room1, room2 in corridors:
+        # Add the neighbor rooms
+        neighbours[room1].add(room2)
+        neighbours[room2].add(room1)
+        # Take the intersection of the two neighbors sets, the length of which
+        # will be equal to the number of cycles containing these two rooms
+        cycles += len(neighbours[room1].intersection(neighbours[room2]))
+
+    return cycles
+
+# Driver code
+def main():
+    n_list = [5, 4, 5, 5, 4]
+    corridors_list= [[[1,2],[5,2],[4,1],[2,4],[3,1],[3,4]],
+                      [[1,2],[3,4]],
+                      [[1,2],[5,2],[4,1], [3,1],[3,4]],
+                      [[1,2],[5,2],[4,1],[2,4],[3,1],[3,4],[1,5]],
+                      [[1,2], [2,3], [3,4]] 
+                    ]
+
+    for i in range(len(n_list)):
+        print(i + 1, ".\tn: ", n_list[i], sep = "")
+        print("\tcorridors: ", corridors_list[i], sep = "")
+        print("\tcycles :", number_of_paths(n_list[i], corridors_list[i]))
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

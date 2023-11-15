@@ -1,0 +1,24 @@
+# Helper function that calculates the amount left to be calculated and tells what its value can be.
+def calculate_minimum_coins(coins, rem, counter):
+    if rem < 0: 
+        return -1
+    if rem == 0:
+        return 0
+    if counter[rem - 1] != float('inf'):
+        return counter[rem - 1]
+    minimum = float('inf')
+
+def coin_change(coins, total): # Main function
+    if total < 1:
+        return 0
+    print("The current total is more than zero, hence we need to call the helper function to calculate the minimum number of coins needed.\n")
+    print("We will pass three parameters to our helper function:\n")
+    print("The first parameter would be the coins we have which are:", coins)
+    print("The second parameter would be the total we have to calculate which is:", total)
+    print("The third parameter is the counter which is initially set to:", [float('inf')] * total)
+    return calculate_minimum_coins(coins, total, [float('inf')] * total)
+
+coins = [1, 3, 4, 5]
+total = 7
+
+coin_change(coins,total)

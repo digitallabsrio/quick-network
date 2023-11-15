@@ -1,0 +1,22 @@
+def find_tribonacci(n):
+    if n < 3:
+        return 1 if n else 0
+
+    first_num, second_num, third_num = 0, 1, 1
+    for _ in range(n - 2):
+        first_num, second_num, third_num = second_num, third_num, \
+          first_num + second_num + third_num
+    return third_num
+
+
+# Driver code
+def main():
+    n = [4, 5, 25, 17, 19]
+    for i in range(len(n)):
+        print((i + 1), ".\tThe ", (n[i]), "th Tribonacci number is:  ",
+              find_tribonacci(n[i]), sep="")
+        print("-"*100, "\n")
+
+
+if __name__ == '__main__':
+    main()

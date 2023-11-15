@@ -1,0 +1,29 @@
+def single_non_duplicate(nums): 
+    l = 0
+    r = len(nums) - 1
+
+    while l != r: 
+        mid = l + (r - l) // 2
+
+        if mid % 2 == 1: 
+            mid -= 1 
+        
+        if nums[mid] == nums[mid + 1]: 
+            l = mid + 2
+        else :
+            r = mid
+            
+    return nums[l]
+
+# Driver code
+def main():
+
+    nums = [[1, 2, 2, 3, 3, 4, 4], [1, 1, 2, 2, 3, 4, 4, 5, 5], [1, 1, 2, 3, 3], [1, 1, 2], [0, 2, 2, 3, 3, 4, 4, 5, 5]]
+
+    for i in range(len(nums)):
+        print(str(i + 1) + ".\tThe Array = ", nums[i] , sep = "")
+        print("\tSingle Element Found: ", single_non_duplicate(nums[i]), sep = "")
+        print("-" * 100)
+
+if __name__ == '__main__':
+    main()

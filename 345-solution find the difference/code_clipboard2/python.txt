@@ -1,0 +1,72 @@
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+
+def extra_character_index(str1, str2):
+
+    # Initialize the result variable to store the result
+    result = 0
+    # Store the length of str1 in str1_length variable
+    str1_length = len(str1)
+    # Store length of str2 in str2_length variable
+    str2_length = len(str2)
+
+    # Traverse string 1 till the end and perform xor with the result
+    print("\n\tTraversing the first string")
+    for i in range(str1_length):
+        print("\t\t", print_string_with_markers(str1, i), sep="")
+        print("\t\tCurrent character:", str1[i])
+        print("\t\tresult:", result)
+        print("\t\tPerforming XOR operation")
+        print("\t\t\tresult XOR ASCII(",
+              str1[i], ") = ", result, " XOR ", (ord)(str1[i]), sep="")
+        # Perform the xor operation with the result
+        result = result ^ (ord)(str1[i])
+        print("\t\tresult:", result, "\n")
+
+    # Traverse string 2 till the end and perform xor with the result
+    print("\n\tTraversing the second string")
+    for j in range(str2_length):
+        print("\t\t", print_string_with_markers(str2, j), sep="")
+        print("\t\tCurrent character:", str2[j])
+        print("\t\tresult:", result)
+        print("\t\tPerforming XOR operation")
+        print("\t\t\tresult XOR ASCII(",
+              str2[j], ") = ", result, " XOR ", (ord)(str2[j]), sep="")
+        # Perform the xor operation with the result
+        result = result ^ (ord)(str2[j])
+        print("\t\tresult:", result, "\n")
+
+    # Returning the result based on the condition
+    print("\tResult is the ASCII value of the extra character")
+    print("\t\tExtra character = char(", result, ") ⟶ ", (chr)(result), sep = "")
+    print("\n\tString 1's length: ", len(str1), sep = "")
+    print("\tString 2's length: ", len(str2), sep = "")
+    if len(str1) > len(str2):
+        index = str1.index((chr)(result))
+        print("\tSince String 1's length is greater than string 2's length,\n\tthe extra character is in string 1.")
+        print("\t\t", print_string_with_markers(str1, index), sep = "")
+        print("\tExtra character is '", str1[index], "' ", end = "", sep = "")
+        return str1.index((chr)(result))
+    else:
+        index = str2.index((chr)(result))
+        print("\tSince String 2's length is greater than string 1's length,\n\tthe extra character is in string 2.")
+        print("\t\t", print_string_with_markers(str2, str2.index((chr)(result))), sep = "")
+        print("\tExtra character is '", str2[index], "' ", end = "", sep = "")
+        return str2.index((chr)(result))
+
+def main():
+    # given string
+    string1_list = ["wxyz", "cbda", "jlkmn", "courae", "hello"]
+    string2_list = ["zwxgy", "abc", "klmn", "couearg", "helo"]
+    for i in range(len(string1_list)):
+
+        print(i+1, ".\tString 1 = ",
+              string1_list[i], "\n\t", "String 2 = ", string2_list[i], sep="")
+        print("at index ", extra_character_index(string1_list[i], string2_list[i]), sep = "")
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

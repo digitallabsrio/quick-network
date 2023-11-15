@@ -1,0 +1,43 @@
+from collections import defaultdict
+def find_anagrams(a,b):
+  
+  if len(b) > len(a): 
+    return []
+  
+  ans = []
+  hash_a = defaultdict(int) 
+  hash_b = defaultdict(int) 
+  
+  for i in range(len(b)):
+    hash_b[b[i]] += 1
+  
+  for window_end in range(len(a)):
+    hash_a[a[window_end]] += 1
+
+    if window_end >= len(b):
+      window_start = window_end - len(b)
+
+      if hash_a[a[window_start]] == 1:
+        del hash_a[a[window_start]]
+
+      else:
+        hash_a[a[window_start]] -= 1
+
+    if hash_a == hash_b:
+      start_index = window_end - len(b) + 1
+      ans.append(start_index) 
+
+  return ans
+
+# driver code
+def main():
+  A = ["abab", "cbaebabacd", "cefecf", "hello", "bro"]
+  B = ["ab", "abc", "efc", "olleh", "bro"]
+  for i in range(len(A)):
+    print(i + 1, ".\tString a: \"", A[i], "\"", sep = "")
+    print("\tString b: \"", B[i], "\"", sep = "")
+    print("\tAnagrams of string b start at index(es) ", find_anagrams(A[i],B[i]), " in string a.", sep = "")
+    print("-" * 100)
+
+if __name__ == '__main__':
+  main()

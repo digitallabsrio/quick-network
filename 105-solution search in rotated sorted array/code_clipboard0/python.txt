@@ -1,0 +1,44 @@
+def binary_search(nums, target):
+    low = 0
+    high = len(nums) - 1
+
+    if low > high:
+        return -1
+
+    while low <= high:
+
+        # Finding the mid using integer division
+        mid = low + (high - low) // 2
+
+        # Target value is present at the middle of the array
+        if nums[mid] == target:
+            return mid
+
+        # If the target value is greater than the middle, ignore the first half
+        elif nums[mid] < target:
+            low = mid + 1
+
+        # If the target value is less than the middle, ignore the second half
+        else:
+            high = mid - 1
+
+    return -1
+
+
+def main():
+    nums_list= [[1, 2, 3, 4, 5, 6, 7],
+                [10, 20, 30, 40, 50, 60],
+                [12, 24, 35, 47, 58, 69, 72, 83, 94],
+                [5, 13, 28, 41, 56, 63, 77, 82, 99, 105],
+                [5, 7, 12, 17, 21, 28, 33, 37, 41, 48, 52, 57, 62, 68, 72]]
+
+    target_list = [1, 50, 12, 56, 5]
+
+    for i in range(len(target_list)):
+        print((i + 1), ".\tSorted array: ", nums_list[i], "\n\ttarget", target_list[i], "found at index ", \
+              binary_search(nums_list[i], target_list[i]))
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

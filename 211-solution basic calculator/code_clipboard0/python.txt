@@ -1,0 +1,53 @@
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+def calculator(expression):
+    number = 0
+
+    i = 0
+    for c in expression:
+        if DBG:
+            print("\t\t", print_string_with_markers(expression, i), sep = "")
+            print("\t\tCurrent character: '", c, "'", sep = "")
+        i += 1
+        # To store the consecutive digits that is 52 => 5 x 10 + 2 = 52
+        if c.isdigit():
+            temp = number
+            number = number * 10 + int(c)
+            if DBG:
+                print("\t\tDetected digit, updating operand: ", temp, " * 10 + ", int(c), " = ", number, sep = "")
+        # Evaluate the left expression and store the new sign value
+        if c in "+-":
+            if DBG:
+                print("\t\tOperator encountered")
+                print("\t\t\tResetting Operand: ", number, " ⟶ 0", sep = "")
+            number = 0
+        if DBG: print()
+    
+
+# Driver code
+def main():
+    global DBG
+    input = (
+             "4 + (52 - 12) + 99",
+             "(31 + 7) - (5 - 2)",
+             "(12 - 9 + 4) + ( 7 - 5)",
+             "8 - 5 + (19 - 11) + 6 + (10 + 3)",
+             "56 - 44 - (27 - 17 - 1) + 7"
+            )
+
+    num = 1
+    for i in input:
+        # Set to False to supress line-by-line trace
+        DBG = True
+        print(num, ".", "\tGiven Expression: ", i, sep="")
+        if DBG:
+            print("\n\t\tProcessing...")
+        print("\tThe result is: ", calculator(i))
+        num += 1
+        print("-"*100, sep="")
+
+
+if __name__ == "__main__":
+    main()

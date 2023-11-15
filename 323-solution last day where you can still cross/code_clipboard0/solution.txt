@@ -1,0 +1,67 @@
+from union_find import *
+
+def last_day_to_cross(rows: int, cols: int, water_cells):
+    
+    day = 0
+    matrix = [[0 for _ in range(cols)] for _ in range(rows)]
+    left_node, right_node = 0, rows * cols + 1    
+    water_directions = [(1, 0), (0, 1), (-1, 0), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    water_cells = [(r - 1, c - 1) for r, c in water_cells]
+    uf = UnionFind(rows * cols + 2)
+
+    for row, col in water_cells:
+        matrix[row][col] = 1
+
+        for dr, dc in water_directions:
+            if within_bounds(row + dr, col + dc, rows, cols) and matrix[row + dr][col + dc] == 1:
+                uf.union(find_index(row, col, cols), find_index((row + dr), (col + dc), cols))
+        if col == 0:
+            uf.union(find_index(row, col, cols), left_node)
+        if col == cols - 1:
+            uf.union(find_index(row, col, cols), right_node)
+
+        if uf.find(left_node) == uf.find(right_node):
+            break
+        day += 1
+    return day
+
+# helper functions
+
+# maps the index of the element in 2-D matrix to an index of the 1-D array (parents)
+def find_index(current_row, current_col, cols):
+    return current_row * cols + (current_col + 1)
+
+# checks whether the water cells to be connected are within the bounds of the matrix as per given dimensions
+def within_bounds(row, col, rows, cols):
+        if not (0 <= col < cols): return False
+        if not (0 <= row < rows): return False
+        return True
+
+# driver code
+def main():
+    all_water_cells = [[[1,2],[2,1],[3,3],[2,2],[1,1],[1,3],[2,3],[3,2],[3,1]],
+                       [[1,1],[2,1],[1,2],[2,2]],
+                       [[1,1],[1,2],[1,3],[2,1],[3,1],[2,2],[3,2],[2,3],[3,3]],
+                       [[1,5],[2,5],[2,4],[2,3],[2,2],[3,2],[4,2],[4,1],[3,1],[2,1],[1,1],[1,2],[1,3],[1,4],
+                        [3,3],[3,5],[3,4],[4,5],[4,3],[4,4]],
+                       [[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[2,5],[2,6],[2,7],[3,1],[3,2],[3,3],[3,7],[4,7],
+                        [4,5],[4,4],[4,3],[4,2],[4,1],[5,1],[5,2],[5,3],[5,4],[5,5],[5,7],[6,7],[7,7],[7,6],
+                        [7,5],[7,4],[7,3],[7,2],[7,1],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[5,6],[4,6],[3,6],
+                        [3,5],[3,4],[2,4],[2,3],[2,2],[2,1],[1,1]],
+                       [[3,2],[1,1],[1,2],[3,3],[2,3],[1,3],[2,1],[2,2],[3,1]]]
+    all_rows = [3, 2, 3, 4, 7, 3]
+    all_cols = [3, 2, 3, 5, 7, 3]
+    
+    for i in range(len(all_water_cells)):
+
+        print(i+1, ".", "\tNumber of rows:",all_rows[i])
+        print("\tNumber of columns:",all_cols[i])
+        print("\n\tCells to be flooded: \n\t",all_water_cells[i])
+
+        last_day = last_day_to_cross(all_rows[i], all_cols[i], all_water_cells[i])
+
+        print("\n\tLast day where you can still cross:", last_day)
+        print("-" * 100)
+
+if __name__ == '__main__':
+        main()

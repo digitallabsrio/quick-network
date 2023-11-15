@@ -1,0 +1,71 @@
+from TreeNode import *
+from BinaryTree import *
+
+
+def flatten_tree(root):
+    if not root:
+        return
+    # Assign current to root
+    current = root
+
+    # Traversing the whole tree
+    print("\n\tTraversing the tree")
+    while current:
+        # printing the tree
+        display_tree(root, current)
+
+        if current.left:
+            print("\n\tThe current node has a left child")
+            last = current.left
+            # printing the tree
+            display_tree(root, last)
+
+            # If the last node has right child
+            while last.right:
+                print("\n\tThe current node has a right child")
+                # printing the tree
+                display_tree(root, last.right)
+                last = last.right
+            
+            print("\n\tThe current node does not have a right child")
+            print("\n\tWe'll move back")
+            # printing the tree
+            display_tree(root, current)
+            print("\n\tWe'll set the left pointer of the current node to None")
+            
+            current.left = None
+
+            # printing the tree
+            display_tree(root, current)
+            
+        print("\n\tMoving to the right child")
+        current = current.right
+    return root
+
+
+# driver code
+if __name__ == '__main__':
+    
+    # Create a list of list of TreeNode objects to represent binary trees
+    list_of_trees = [[TreeNode(3), TreeNode(2), TreeNode(17), TreeNode(1), TreeNode(4), TreeNode(19), TreeNode(5)],
+                    [TreeNode(7), TreeNode(6), TreeNode(5), TreeNode(4), TreeNode(3), TreeNode(2), None, TreeNode(1)],
+                    [TreeNode(5), TreeNode(4), TreeNode(6), TreeNode(3), TreeNode(2), TreeNode(7), TreeNode(8), TreeNode(1), TreeNode(9)],
+                    [TreeNode(5), TreeNode(2), TreeNode(1), TreeNode(6), TreeNode(10), TreeNode(11), TreeNode(44)],
+                    [TreeNode(1), TreeNode(2), TreeNode(5), TreeNode(3), TreeNode(4), TreeNode(6)],
+                    [TreeNode(-1), TreeNode(-2), None, TreeNode(-5), TreeNode(1), TreeNode(2), TreeNode(-6)]
+    ]
+
+    # Create the binary trees using the BinaryTree class
+    input_trees = []
+    for list_of_nodes in list_of_trees:
+        tree = BinaryTree(list_of_nodes)
+        input_trees.append(tree)
+
+    # Print the input trees
+    x = 1
+    for tree in input_trees:
+        print(x, ".\tInput Tree:", sep = "")
+        display_tree(tree.root, None)
+        flatten_tree(tree.root)
+        x += 1
+        print("-" * 100)

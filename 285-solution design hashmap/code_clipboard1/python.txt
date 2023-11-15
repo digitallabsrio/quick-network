@@ -1,0 +1,20 @@
+from bucket import *
+
+class MyHashMap():
+    # Initialize hash map here
+    def __init__(self, key_space):
+        # It’s better to have a prime number, so there's less collision
+        self.key_space = key_space
+        self.buckets = [Bucket()] * self.key_space
+    
+    def put(self, key, value):
+       # Write your code here
+       pass
+    
+    def get(self, key):
+       # Write your code here
+        pass
+
+    def remove(self, key):
+       # Write your code here
+        pass

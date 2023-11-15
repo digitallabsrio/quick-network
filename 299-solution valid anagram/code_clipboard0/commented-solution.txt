@@ -1,0 +1,48 @@
+def is_anagram(str1, str2):
+    # Check if the lengths of the strings are equal
+    if len(str1) != len(str2):
+        return False
+    
+    # Initialize a HashMap to store the count of characters
+    table = {}
+    
+    # Iterate over str1 and update the count of each character
+    for i in str1:
+      if i in table:
+        table[i] += 1
+      
+      else:
+        table[i] = 1
+    
+    # Iterate over str2 and update the count of each character
+    for i in str2:
+      if i in table:
+        table[i] -= 1
+      
+      else:
+        # If character is not already present in HashMap return False
+        # because it is extra character in str2
+        return False
+    
+    # Iterate over the count of each character and check if it is zero
+    for key in table:
+        # If the count for any character is not zero, the strings are not anagrams
+        if table[key] != 0:
+            return False
+    
+    # If the code reaches this point, the strings are anagrams
+    return True
+
+def main():
+
+  str1_list = ["listen", "race", "elbow", "cat", "inch"]
+  str2_list = ["silent", "cares", "below", "act", "chin"]
+
+  for i in range(len(str1_list)):
+    print(i + 1, ".\tstr1: \"", str1_list[i], "\"", sep = "")
+    print("\tstr2: \"", str2_list[i], "\"", sep = "")
+    print('\t"', str2_list[i], '" is anagram of "', str1_list[i], '": ',is_anagram(str1_list[i],str2_list[i]), sep = "")
+    print("-" * 100)
+
+if __name__ == '__main__':
+  main()

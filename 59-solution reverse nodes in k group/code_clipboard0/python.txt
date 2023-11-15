@@ -1,0 +1,54 @@
+from __future__ import print_function
+from linked_list import LinkedList
+from linked_list_node import LinkedListNode
+from print_list import print_list_with_forward_arrow
+
+def reverse_k_groups(head, k):
+
+    # Create a dummy node and set its next pointer to the head
+    dummy = LinkedListNode(0)
+    dummy.next = head
+    ptr = dummy
+ 
+    while(ptr != None):
+
+        print("\tIdentifying a group of", k, "nodes:")
+        print("\t\tptr:", ptr.data)
+
+        # Keep track of the current position
+        tracker = ptr
+
+        print("\t\tCurrent group: ", end = "")
+
+        # Traverse k nodes to check if there are enough nodes to reverse
+        for i in range(k):
+
+            if tracker == None:
+                break
+       
+            tracker = tracker.next
+            print(tracker.data, end = " ") if tracker else print("", end = "")
+
+        # If there are not enough nodes to reverse, break out of the loop
+        if tracker == None:
+            print("\n\t\tThe above group contains less than", k, "nodes, so we can't reverse it.\n")
+            break
+
+        else:
+            print("\n\t\tThe above group of",k,"nodes can be reversed.\n")
+
+        ptr = tracker
+  
+def main():
+    input_list = [1, 2, 3, 4, 5, 6, 7, 8]
+    k = 3
+    input_linked_list = LinkedList()
+    input_linked_list.create_linked_list(input_list)
+
+    print("Linked list: ", end=" ")
+    print_list_with_forward_arrow(input_linked_list.head)
+    print('\n')
+    result = reverse_k_groups(input_linked_list.head, k)
+
+if __name__ == '__main__':
+    main()

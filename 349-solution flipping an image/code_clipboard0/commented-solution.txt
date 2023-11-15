@@ -1,0 +1,59 @@
+def flip_and_invert_image(image):
+    # Get the number of rows in the image
+    row_count = len(image)
+    # Calculate the middle index of the rows
+    mid = (row_count + 1) // 2
+    
+    # Iterate over each row of the image
+    for row in image:
+        # Iterate over the first half of each row
+        for i in range(mid):
+            # Flip and invert the row
+            
+            # Store the inverted value of the current element in a temporary variable
+            temp = row[i] ^ 1
+            # Update the current element with the inverted value of the corresponding element from the second half
+            row[i] = row[len(row) - 1 - i] ^ 1
+            # Update the corresponding element from the second half with the inverted value stored in the temporary variable
+            row[len(row) - 1 - i] = temp
+    
+    # Return the flipped and inverted image
+    return image
+
+
+# Driver code
+def main():
+    inputs = [
+                [[1, 1, 0],
+                 [1, 0, 1],
+                 [0, 0, 0]],
+
+                [[1, 1, 0, 0],
+                 [1, 0, 0, 1],
+                 [0, 1, 1, 1],
+                 [1, 0, 1, 0]],
+
+                [[1, 1, 0, 0, 1],
+                 [1, 0, 0, 1, 0],
+                 [0, 1, 1, 1, 1],
+                 [0, 0, 1, 1, 0],
+                 [1, 0, 1, 0, 0]],
+
+                [[0, 0, 1],
+                 [1, 0, 1],
+                 [0, 1, 0]],
+
+                [[1, 1, 1],
+                 [0, 0, 0],
+                 [1, 1, 1]]
+    ]
+
+    for i in range(len(inputs)):
+        print(i + 1, ".\t Original image: ", inputs[i], sep="")
+        print("\t Flipped and inverted image: ", ": ",
+              flip_and_invert_image(inputs[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,33 @@
+from print_tic_tac_toe import print_tic_tac_toe
+from print_tic_tac_toe import print_board_states
+
+class TicTacToe:
+    # TicTacToe class contains rows, cols, diagonal,
+    # and anti_diagonal to create a board.
+    # Constructor is used to create board of size n * n.
+    def __init__(self, n):
+        self.rows = [0] * (n)
+        self.cols = [0] * (n)
+
+        # self.board is only used for printing purposes
+        self.board = [["-" for _ in range(n)] for _ in range(n)] # initializing the board for printing
+        print_tic_tac_toe(self.board, n)
+
+        print("Initial state of counters:")
+        print_board_states(self)
+
+    # move function will allow the players to play the game
+    # by placing their mark at the row and col of their choice.
+    def move(self, row, col, player):
+        return 0
+
+# Driver code
+def main():
+    n = 3
+    print("Initial state of", n, "X", n, "Tic-Tac-Toe board:")
+    tic_tac_toe_obj = TicTacToe(n)
+    win = 0
+
+       
+if __name__ == '__main__':
+    main()    

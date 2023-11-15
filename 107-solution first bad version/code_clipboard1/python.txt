@@ -1,0 +1,43 @@
+def first_bad_version(n):
+
+    # Assigning first pointer with the first version that is 1
+    first = 1
+    # Assigning last pointer with n that is the number of versions
+    last = n
+    calls = 0
+    print("\n\tVersions: ", end="")
+    for x in range(first, last):
+        print(x, end=", ")
+    print(last, "\n")
+    # Binary search to find the target version
+    while first < 2:  # Last should be equal to n.But here last = 2. Because we are calculating mid only one time here just to show how it works
+        mid = first + (last - first) // 2;
+        first += 1
+        print("\n\tmid: ", mid)
+        # is_bad_version() is the API function that returns true
+        # or false depending upon whether the provided version ID
+        # is bad or good
+        if (is_bad_version(mid)):
+            print(f"\tVersion {mid} is bad, so we search in the first half of the list.\n")
+        else:
+            print(f"\tVersion {mid} is good, so we search in the second half of the list.\n")
+
+    return first, calls
+
+# Driver code
+
+
+def main():
+    global v
+    test_case_versions = [38, 13, 29, 40, 23]
+    first_bad_versions = [28, 10, 10, 28, 19]
+
+    for i in range(len(test_case_versions)):
+        v = first_bad_versions[i]
+        print(i + 1,  ".\tNumber of versions: ", test_case_versions[i], sep="")
+        first_bad_version(test_case_versions[i])
+        print("-"*100)
+
+
+if __name__ == '__main__':
+    main()

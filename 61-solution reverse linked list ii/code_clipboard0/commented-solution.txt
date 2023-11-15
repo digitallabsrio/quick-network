@@ -1,0 +1,109 @@
+from __future__ import print_function
+from linked_list import LinkedList
+from print_list import print_list_with_forward_arrow
+
+
+# Assume that the linked list has left to right nodes.
+# Reverse left to right nodes of the given linked list.
+def reverse(head, left, right):
+    prev = None
+    curr = head  # a pointer to traverse the original list.
+    while right >= left:
+        # Track the next node to traverse in the original list
+        next  = curr.next
+
+        # At the beginning of the reversed list,
+        # insert the node pointed to by `ptr`
+        curr.next = prev
+        prev = curr
+
+        # Move on to the next node
+        curr = next
+
+        # Decrement the count of nodes to be reversed by 1
+        right -= 1
+    # Return reversed list's head
+    return prev
+
+
+def reverse_between(head, left, right):
+    curr = head  # a pointer to traverse the original list.
+    # a pointer to keep the track of previous node
+    lpn= None
+    right_n = None
+    reverse_head = None
+    
+    # Keep traversing until left and right node number
+    count = 1
+    # Move the ptr to the left number node
+    while count < left and curr:
+        lpn = curr  # keep track of the previous node
+        curr = curr.next
+        count += 1
+    if curr:
+        # keep track of the next node outside the [left - right] 
+        # interval
+        rpn = curr
+        while count <= right and rpn:
+            # keep track of the right number node
+            right_n=rpn
+            rpn = right_n.next
+            count += 1
+        # If we have found the left till right nodes, then we 
+        # reverse them.
+        if right_n:
+            # Reverse these [left-right] nodes and get the new head
+            #  of the reversed list
+            reverse_head = reverse(curr, left, right)
+        if lpn:
+            # point previous.next to the reversed linked list
+            lpn.next = reverse_head
+        if rpn:
+            # traverse in the reversed linked list until the last node
+            tmp = reverse_head
+            while tmp.next:
+                tmp = tmp.next
+            # add the next node to the reversed linked list
+            tmp.next = rpn
+
+    # We will reverse head if there are node before the [left-right]
+    # position interval
+    if lpn:
+        return head
+    # We will simply return the reverse head if there is no node
+    # before the [left-right] position interval
+    else:
+        return reverse_head
+
+
+# Driver Code
+def main():
+    input_list = [
+        [1, 2, 3, 4, 5, 6, 7],
+        [6, 9, 3, 10, 7, 4, 6],
+        [6, 9, 3, 4],
+        [6, 2, 3, 6, 9],
+        [6, 2]
+    ]
+    left = [1, 3, 2, 1, 1]
+    right = [5, 6, 4, 3, 2]
+
+    for i in range(len(input_list)):
+
+        input_linked_list = LinkedList()
+        input_linked_list.create_linked_list(input_list[i])
+
+        print(i + 1, ".\tOriginal linked list is: ", end="")
+        print_list_with_forward_arrow(input_linked_list.head)
+        if left[i] <= 0:
+            print("\n\tThe expected 'left' and 'right' to have \
+            value from 1 to length of the linked list only.")
+        else:
+            result = reverse_between(input_linked_list.head, left[i], right[i])
+            print("\n\tReversed linked list is: ", end="")
+            print_list_with_forward_arrow(result)
+        print("\n", "-"*100, sep="")
+
+
+if __name__ == '__main__':
+    main()

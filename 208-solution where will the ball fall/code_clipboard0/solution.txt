@@ -1,0 +1,35 @@
+def find_exit_column(grid):
+    result = [-1]*len(grid[0])
+
+    for col in range(len(grid[0])):
+        current_col = col;
+
+        for row in range(len(grid)):
+            next_col = current_col + grid[row][current_col]
+
+            if next_col < 0 or next_col > len(grid[0])-1 or grid[row][current_col] != grid[row][next_col]:
+                break
+
+            if row == len(grid)-1:
+                result[col] = next_col
+            current_col = next_col
+    return result
+
+# Driver Code
+def main():
+
+
+    grids = [[[1, 1, 1, -1, -1], [1, 1, 1, -1, -1], [-1, -1, -1, 1, 1], [1, 1, 1, 1, -1], [-1, -1, -1, -1, -1]],
+                 [[1 , 1, 1, -1, 1, 1, 1 , 1, 1, -1, 1, 1], [-1, -1, 1, -1, -1, 1, -1, -1, 1, -1, -1, 1], [1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1], [-1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1]],
+                 [[-1 ,-1, -1, -1], [1, 1, 1, 1], [-1, -1, -1, -1], [1, 1, 1, 1]],
+                 [[1]],
+                 [[-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1]]]
+
+    for i in range(len(grids)):
+        print("Test Case #", i+1, "\n\nInput grid: ")
+        print_grid(grids[i])
+        print("\nOutput: " , find_exit_column(grids[i]))
+        print("-" * 100)
+
+if __name__ == '__main__':
+    main()

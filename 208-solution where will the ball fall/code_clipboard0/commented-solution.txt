@@ -1,0 +1,39 @@
+def find_exit_column(grid):
+    # Initialize a list with -1 to store the results
+    result = [-1]*len(grid[0])
+
+    # Loop through each column in the grid
+    for col in range(len(grid[0])):
+        # Start the ball at the top of the current column
+        current_col = col;
+        # Loop through each row in the grid
+        for row in range(len(grid)):
+            # Get the value of the diagonal grid at the current position
+            next_col = current_col + grid[row][current_col]
+            # Check if the ball is out of the grid or hit a "V" shaped pattern
+            if next_col < 0 or next_col > len(grid[0])-1 or grid[row][current_col] != grid[row][next_col]:
+                break
+            # Check if the ball has reached the bottom
+            if row == len(grid)-1:
+                result[col] = next_col
+            current_col = next_col
+    return result
+
+# Driver Code
+def main():
+
+
+    grids = [[[1, 1, 1, -1, -1], [1, 1, 1, -1, -1], [-1, -1, -1, 1, 1], [1, 1, 1, 1, -1], [-1, -1, -1, -1, -1]],
+                 [[1 , 1, 1, -1, 1, 1, 1 , 1, 1, -1, 1, 1], [-1, -1, 1, -1, -1, 1, -1, -1, 1, -1, -1, 1], [1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1], [-1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1]],
+                 [[-1 ,-1, -1, -1], [1, 1, 1, 1], [-1, -1, -1, -1], [1, 1, 1, 1]],
+                 [[1]],
+                 [[-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1]]]
+
+    for i in range(len(grids)):
+        print("Test Case #", i+1, "\n\nInput grid: ")
+        print_grid(grids[i])
+        print("\nOutput: " , find_exit_column(grids[i]))
+        print("-" * 100)
+
+if __name__ == '__main__':
+    main()

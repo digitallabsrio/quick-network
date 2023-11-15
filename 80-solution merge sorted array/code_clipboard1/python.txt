@@ -1,0 +1,68 @@
+def print_array_with_markers(arr, pValue):
+    out = "["
+    for i in range(len(arr)):
+        if i in pValue:
+            out += '«'
+            out += str(arr[i]) + '»' + ", "
+        else:
+            out += str(arr[i]) + ", "
+    out = out[0:len(out) - 2]
+    out += "]"
+    return out
+
+
+def merge_sorted(nums1, m, nums2, n):
+    p1 = m - 1  # set p1 to the last initialised element of nums1
+    p2 = n - 1  # set p2 to the last element of nums2
+
+    print("\n\tInitialising p1 to the last data element of nums1:", sep = "")
+    print("\t\t", print_array_with_markers(nums1, [p1]), sep = "")
+    print("\t\tp1: ", p1, ", value: ", nums1[p1], sep = "")
+
+    print("\n\tInitialising p2 to the last data element of nums2:", sep = "")
+    print("\t\t", print_array_with_markers(nums2, [p2]), sep = "")
+    print("\t\tp1: ", p2, ", value: ", nums2[p2], sep = "")
+
+    # traverse backwards over the nums1 array
+    print("\n\tTraversing the nums1 array using pointer p:")
+    x = 0
+    for p in range(n + m - 1, -1, -1):
+        print("\t\tLoop iteration: ", x, sep = "")
+        x += 1
+        print("\t\t\t", print_array_with_markers(nums1, [p1]), sep = "")
+        print("\t\t\tp1: ", p1, ", value: ", nums1[p1], sep = "")
+        print("\t\t\t", print_array_with_markers(nums2, [p2]), sep = "")
+        print("\t\t\tp2: ", p2, ", value: ", nums2[p2], sep = "")
+        # if p1 is not on the first element and the nums1 element is greater than nums2 element
+        if p1 >= 0 and nums1[p1] > nums2[p2]:
+            print("\t\t\tThe value at p1(", nums1[p1], ") > the value at p2(", nums2[p2], ")", sep = "")
+            # set the element at index p = the element on index p1 in nums1
+            print("\t\t\t\t", print_array_with_markers(nums1, [p1, p]), sep = "")
+            print("\t\t\t\tp1: ", p1, ", value: ", nums1[p1], sep = "")
+            print("\t\t\t\tp: ", p, ", value: ", nums1[p], sep = "")
+            nums1[p] = nums1[p1]
+            print("\t\t\t\tChanging the value at p to the value at p1:")
+            print("\t\t\t\t\t", print_array_with_markers(nums1, [p]), sep = "")
+            # move the p1 pointer one element back
+            print("\t\t\t\tDecrementing p1: ", p1, " ⟶ ", p1 - 1, "\n", sep = "")
+            p1 -= 1
+    return nums1
+
+
+# Driver code
+def main():
+    m = [9, 2, 3, 1, 8]
+    n = [6, 1, 4, 2, 1]
+    nums1 = [[23, 33, 35, 41, 44, 47, 56, 91, 105, 0, 0, 0, 0, 0, 0], [1, 2, 0], [1, 1, 1, 0, 0, 0, 0], [6, 0, 0], [12, 34, 45, 56, 67, 78, 89, 99, 0]]
+    nums2 = [[32, 49, 50, 51, 61, 99], [7], [1, 2, 3, 4], [-99, -45], [100]]
+    k = 1
+    for i in range(len(m)):
+        print(k, ".\tnums1: ", nums1[i], ", m: ", m[i], sep = "")
+        print("\tnums2: ", nums2[i], ", n: ", n[i], sep = "")
+        print("\n\tMerged list: ", merge_sorted(nums1[i], m[i], nums2[i], n[i]), sep = "")
+        print("-"*100, "\n")
+        k += 1
+
+
+if __name__ == "__main__":
+    main()

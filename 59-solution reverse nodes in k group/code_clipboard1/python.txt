@@ -1,0 +1,19 @@
+def reverse_linked_list(head, k):
+	previous, current, next = None, head, None
+	for _ in range(k):
+		# temporarily store the next node
+		next = current.next
+		# reverse the current node
+		current.next = previous
+		# before we move to the next node, point previous to the
+        # current node
+		previous = current
+		# move to the next node 
+		current = next
+
+	print("\t\tPointers after reversing k =", k, "elements:")
+	print("\t\t\tcurrent:", current.data if current else "null")
+	print("\t\t\tnext:", next.data if next else "null")
+	print("\t\t\tprevious:", previous.data if previous else "null")
+		
+	return previous, current

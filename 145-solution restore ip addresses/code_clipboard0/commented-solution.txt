@@ -1,0 +1,72 @@
+def valid(segment):
+    segment_length = len(segment)  # storing the length of each segment
+    if segment_length > 3:  # each segment's length should be less than 3
+        return False
+
+    # Check if the current segment is valid
+    # for either one of following conditions:
+    # 1. Check if the current segment is less or equal to 255.
+    # 2. Check if the length of the segment is 1. The first character of segment
+    #    can be `0` only if the length of the segment is 1.
+    return int(segment) <= 255 if segment[0] != '0' else len(segment) == 1
+
+
+# this function will append the current list of segments to the list of results.
+def update_segment(s, curr_dot, segments, result):
+    segment = s[curr_dot + 1:len(s)]
+
+    if valid(segment):  # if the segment is acceptable
+        segments.append(segment)  # add it to the list of segments
+        result.append('.'.join(segments))
+        segments.pop()  # remove the top segment
+
+
+def backtrack(s, prev_dot, dots, segments, result):
+    # prev_dot : the position of the previously placed dot
+    # dots : number of dots to place
+
+    size = len(s)
+
+    # The current dot curr_dot could be placed in
+    # a range from prev_dot + 1 to prev_dot + 4.
+    # The dot couldn't be placed after the last character in the string.
+    for curr_dot in range(prev_dot + 1, min(size - 1, prev_dot + 4)):
+        segment = s[prev_dot + 1:curr_dot + 1]
+        if valid(segment):
+            segments.append(segment)
+
+            # if all 3 dots are placed add the solution to result
+            if dots - 1 == 0:
+                update_segment(s, curr_dot, segments, result)
+            else:
+                # continue to place dots
+                backtrack(s, curr_dot, dots - 1, segments, result)
+
+            segments.pop()  # remove the last placed dot
+
+
+def restore_ip_addresses(s):
+
+    # creating empty lists for storing valid IP addresses,
+    # and each segment of IP
+    result, segments = [], []
+    backtrack(s, -1, 3, segments, result)
+    return result
+
+
+# driver code
+def main():
+    # input streams of IP addresses
+    ip_addresses = ["0000", "25525511135", "12121212",
+                    "113242124", "199219239", "121212", "25525511335"]
+
+    # loop to execute till the lenght of input IP addresses
+    for i in range(len(ip_addresses)):
+        print(i + 1, ".\t Input addresses: '", ip_addresses[i], "'", sep="")
+        print("\t Possible valid IP Addresses are: ",
+              restore_ip_addresses(ip_addresses[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,66 @@
+from collections import deque
+
+
+def find_compilation_order(dependencies):
+    sorted_order = []
+    # a. Initialize the graph and inDegree
+    graph = {}
+    inDegree = {}
+    print("\tInitializing the graph and inDegree")
+    for x in dependencies:
+        parent, child = x[1], x[0]
+        graph[parent], graph[child] = [], []
+        inDegree[parent], inDegree[child] = 0, 0
+    print("\t\tGraph: ", graph, sep = "")
+    print("\t\tinDegree: ", inDegree, "\n", sep = "")
+    if len(graph) <= 0:
+        print("\tThere are no vertices")
+        print("\t\tReturning the sorted order: ", sorted_order, sep = "")
+        return sorted_order
+
+    print("\tBuilding the graph and populating inDegree")
+    # b. Build the graph
+    k = 0
+    for dependency in dependencies:
+        print("\t\tLoop index: ", k, sep = "")
+        k += 1
+        parent, child = dependency[1], dependency[0]
+        graph[parent].append(child)  # put the child into it's parent's list
+        inDegree[child] += 1  # increment child's inDegree
+        print("\t\t\tDependency pair: ", dependency, " ⟶ parent: ", parent, ", child: ", child, sep = "")
+        print("\t\t\tAppending the child to the parent's list in the graph:")
+        print("\t\t\t\tGraph: ", graph, sep = "")
+        print("\t\t\tIncrementing indegree of the child ⟶ ", inDegree)
+    print()
+
+    # c. Find all sources i.e., all n with 0 in-degrees
+    print("\n\tFinding all sources")
+    sources = deque()
+    l = 0
+    for key in inDegree:
+        print("\t\tLoop index: ", l, sep = "")
+        l += 1
+        if inDegree[key] == 0:
+            sources.append(key)
+            print("\t\t\tIn-degree of ", key, " is 0, hence it's a source", sep = "")
+            print("\t\t\tSources: ", sources, sep = "")
+        else:
+            print("\t\t\tIn-degree of ", key, " is ", inDegree[key], " hence it's not a source", sep = "")
+    print()
+
+
+# Driver code
+def main():
+    dependencies = [[['B', 'A'], ['C', 'A'], ['D', 'C'], ['E', 'D'], ['E', 'B']],
+        [['B', 'A'], ['C', 'A'], ['D', 'B'], ['E', 'B'], ['E', 'D'], ['E', 'C'], ['F', 'D'], ['F', 'E'], ['F', 'C']],
+        [['A', 'B'], ['B', 'A']],
+        [['B', 'C'], ['C', 'A'], ['A', 'F']],
+        [['C', 'C']]]
+    for i in range(len(dependencies)):
+        print(i + 1, ".\tdependencies: ", dependencies[i], sep = "")
+        print("\tCompilation Order: ", find_compilation_order(dependencies[i]), sep = "")
+        print("-"*100, "\n", sep ="")
+
+
+if __name__ == "__main__":
+    main()

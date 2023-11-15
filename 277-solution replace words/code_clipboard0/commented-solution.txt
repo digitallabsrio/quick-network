@@ -1,0 +1,57 @@
+from trie import Trie
+
+
+def replace_words(sentence, dictionary):
+    trie = Trie()
+    
+    # iterate over the prefixes in the dictionary, and
+    # insert them in the trie
+
+    # NOTE: insert function is implemented in the file, trie.py
+    for prefix in dictionary:
+        trie.insert(prefix)
+    
+    # store each word of the sentence in a new list
+    new_list = sentence.split()
+
+    # iterate over all the words in the sentence
+    for i in range(len(new_list)):
+        
+        # replace each word in new_list with the
+        # shortest prefix found from the trie
+
+        # NOTE: replace function is implemented in the file, trie.py
+        new_list[i] = trie.replace(new_list[i])
+
+    # after replacing each word with the shortest matching prefix,
+    # convert the list of words back to a single sentence
+    return " ".join(new_list)
+
+
+# driver code
+def main():
+
+    # input array of sentences
+    sentence = ["where there is a will there is a way",
+                "the quick brown fox jumps over the lazy dog",
+                "oops there is no matching word in this sentence",
+                "i was born on twenty ninth february",
+                "i dont know where you are but i will find you eventually"]
+
+    # input array of dictionary words to search in sentences
+    dictionary = [["wi", "wa", "w"],
+                  ["qui", "f", "la", "d"],
+                  ["oops", "there", "is", "no", "matching", "word", "in", "this", "sentence"],
+                  ["wa", "w", "a", "ty", "nint", "nin", "n", "feb", "februa", "f"],
+                  ["cool", "how", "sunday", 'sun', "x"]]
+
+    for i in range(len(sentence)):
+        print(i + 1, ".\t Input sentence: '", sentence[i], "'", sep="")
+        print("\t Dictionary words: ", dictionary[i], sep="")
+        print("\t After replacing words: '",
+              replace_words(sentence[i], dictionary[i]), "'", sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,29 @@
+def remove_duplicates(string):
+    stack = []
+    for char in string:
+        if stack and stack[-1] == char:
+            stack.pop()
+        else:
+            stack.append(char)
+    
+    return "".join(stack)
+
+
+# Driver code
+def main():
+    inputs = ["g", 
+        "ggaabcdeb", 
+        "abbddaccaaabcd",
+        "aannkwwwkkkwna", 
+        "abbabccblkklu"
+    ]
+
+    for i in range(len(inputs)):
+        print(i + 1, ".\tRemove duplicates from string: '", inputs[i], "'", sep = "")
+        resulting_string = remove_duplicates(inputs[i])
+        print("\tString after removing duplicates: ", resulting_string, sep = "")
+        print('-'*100)
+
+
+if __name__ == "__main__":
+    main()

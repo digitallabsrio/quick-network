@@ -1,0 +1,41 @@
+def house_robber(money):
+    # Check if the input list is empty or None
+    if len(money) == 0 or money is None:
+        return 0
+
+    # If the input list has only one element, return that element
+    if len(money) == 1:
+        return money[0]
+
+    # Return the maximum value from calling the helper function on the input
+    # list minus the last element and the input list minus the first element
+    return max(house_robber_helper(money[:-1]), house_robber_helper(money[1:]))
+
+
+def house_robber_helper(money):
+    # Create a lookup array with the same length as the input list, filled with 0s
+    lookup_array = [0 for x in range(len(money) + 1)]
+    lookup_array[0] = 0
+    lookup_array[1] = money[0]
+    # Iterate through the input list starting from the second element
+    for i in range(2, len(money)+1):
+        # Update the lookup array at each index with the maximum value between the current
+        # element in the input list plus the previous element in the lookup array and the 
+        # current element in the lookup array
+        lookup_array[i] = max(money[i-1]+lookup_array[i-2], lookup_array[i-1])
+
+    # Return the last element in the lookup array
+    return lookup_array[len(money)]
+
+# Driver code
+def main():
+
+    inputs = [[2,3,2], [1,2,3,1], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], [7,4,1,9,3], []]
+
+    for i in range(len(inputs)):
+        print(i + 1, ".\tHouses: ", inputs[i], sep ="")
+        print("\n\tMaximum loot:", house_robber(inputs[i]))
+        print("-" * 100)
+          
+if __name__ == "__main__":
+    main()

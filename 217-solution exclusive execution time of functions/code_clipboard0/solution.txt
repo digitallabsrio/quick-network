@@ -1,0 +1,37 @@
+from logs import *
+
+def exclusive_time(n, logs):
+    logs_stack = []
+    result = [0]*n
+
+    for content in logs:
+        logs = Log(content)
+        if logs.is_start:
+            logs_stack.append(logs)
+        else:
+            top = logs_stack.pop()
+            result[top.id] += (logs.time - top.time + 1)
+            if logs_stack:
+                result[logs_stack[-1].id] -= (logs.time - top.time + 1)
+    return result
+
+# Driver code
+def main():
+    logs = [["0:start:0", "1:start:2", "1:end:3", "2:start:4", "2:end:7", "0:end:8"],
+        ["0:start:0", "0:start:2", "0:end:5", "1:start:6", "1:end:6", "0:end:7"],
+        ["0:start:0", "1:start:5", "1:end:6", "0:end:7"],
+        ["0:start:0", "1:start:5", "2:start:8", "3:start:12", "4:start:15", "5:start:19", "5:end:22", "4:end:24", "3:end:27", "2:end:32", "1:end:35", "0:end:36"],
+        ["0:start:0", "1:start:3", "1:end:6", "0:end:10"]
+    ]
+    n = [3, 2, 2, 6, 2]
+    x = 1
+    for i in range(len(n)):
+        print(x, ".\tn = ", n[i], sep = "")
+        print("\tlogs = ", logs[i], sep = "")
+        print("\tOutput: ", exclusive_time(n[i], logs[i]), sep = "")
+        print("-"*100, "\n", sep = "")
+        x += 1
+
+
+if __name__ == '__main__':
+    main()

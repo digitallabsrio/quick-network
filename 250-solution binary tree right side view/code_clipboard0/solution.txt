@@ -1,0 +1,46 @@
+from TreeNode import *
+from BinaryTree import *
+
+def right_side_view(root):
+    if root is None:
+        return []
+
+    rside = []
+    dfs(root, 0, rside)
+
+    return rside
+
+# Apply depth-first search
+def dfs(node, level, rside):
+    if level == len(rside):
+        rside.append(node.data)
+
+    for child in [node.right, node.left]:
+        if child: 
+            dfs(child, level + 1, rside)
+
+# Driver code
+def main():
+    input = [
+        [TreeNode(1), TreeNode(2), TreeNode(3), None, None, TreeNode(4), TreeNode(5)],
+        [TreeNode(1), TreeNode(2), None, TreeNode(3), None, TreeNode(4)],
+        [TreeNode(1), TreeNode(2), TreeNode(3), TreeNode(4), TreeNode(5), TreeNode(6), TreeNode(7), TreeNode(8)],
+        [TreeNode(1), TreeNode(2), TreeNode(3), TreeNode(4), TreeNode(5), TreeNode(6), None, TreeNode(8)],
+        [TreeNode(1), TreeNode(2), None, TreeNode(3), TreeNode(4)]
+    ]
+
+    # Create the binary trees using the BinaryTree class
+    input_trees = []
+    for list_of_nodes in input:
+        tree = BinaryTree(list_of_nodes)
+        input_trees.append(tree)
+
+    for i in range(len(input_trees)):
+        root = input_trees[i].root
+        print(str(i + 1) + ". Binary tree:")
+        display_tree(root)
+        print("\n   Right side view: " + str(right_side_view(root)))
+        print("-" * 100, "\n", sep="")
+
+if __name__ == "__main__":
+    main()

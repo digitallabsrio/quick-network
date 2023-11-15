@@ -1,0 +1,89 @@
+from collections import defaultdict, Counter, deque
+
+
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+
+def print_array_with_markers(arr, pValue):
+    out = "["
+    for i in range(len(arr)):
+        if i in pValue:
+            out += '«'
+            out += str(arr[i]) + '»' + ", "
+        else:
+            out += str(arr[i]) + ", "
+    out = out[0:len(out) - 2]
+    out += "]"
+    return out
+
+
+def alien_order(words):
+
+    # Step 0: Create data structures and find all unique letters.
+    adj_list = defaultdict(set)
+    
+    # counts stores the number of unique letters
+    print("\n\tGetting unique characters")
+    counts = Counter({c: 0 for word in words for c in word})
+    print("\t\t", counts.keys(), sep="")
+    # Step 1: We need to populate adj_list and counts.
+    # For each pair of adjacent words...
+    print("\n\tComparing adjacent words")
+    outer = 0
+    for word1, word2 in zip(words, words[1:]):
+        print("\t\tLoop index: ", outer, sep="")
+        print("\t\t", print_array_with_markers(
+            words, [outer, outer+1]), sep="")
+        outer += 1
+        print("\t\tWords to compare: ", word1, ", ", word2, sep="")
+        print("\t\tIterating the words")
+        inner = 0
+        for c, d in zip(word1, word2):
+            print("\t\t\tInner loop index: ", inner)
+            print("\t\t\t\tword1: ", print_string_with_markers(
+                word1, inner), ", c = ", c, sep="")
+            print("\t\t\t\tword2: ", print_string_with_markers(
+                word2, inner), ", d = ", d, sep="")
+            inner += 1
+            if c != d:
+                print("\t\t\t\tThe characters are not the same")
+                if d not in adj_list[c]:
+                    print("\t\t\t\t\tAdding '", d, "' to ", c,
+                          "'s children: ", adj_list[c], " ⟶ ", sep="", end="")
+                    adj_list[c].add(d)
+                    print(adj_list[c])
+                    print("\t\t\t\t\tIncremeting count of '",
+                          d, "' ⟶ ", sep="", end="")
+                    counts[d] += 1
+                    print(counts)
+                break
+            else:
+                print("\t\t\t\tBoth characters are the same: '",
+                      c, "', moving to the next character", sep="")
+        else:  # Check that second word isn't a prefix of first word.
+            if len(word2) < len(word1):
+                return ""
+
+# Driver code
+
+
+def main():
+    words = [
+        ["mzosr", "mqov", "xxsvq", "xazv", "xazau", "xaqu",
+            "suvzu", "suvxq", "suam", "suax", "rom", "rwx", "rwv"],
+        ["vanilla", "alpine", "algor", "port",
+            "norm", "nylon", "ophellia", "hidden"],
+        ["passengers", "to", "the", "unknown"],
+        ["alpha", "bravo", "charlie", "delta"],
+        ["jupyter", "ascending"]]
+
+    for i in range(len(words)):
+        print(i + 1, ".\twords = ", words[i], sep="")
+        print("\tDictionary = \"", alien_order(words[i]), "\"", sep="")
+        print("-"*100)
+
+
+if __name__ == "__main__":
+    main()

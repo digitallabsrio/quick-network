@@ -1,0 +1,74 @@
+from linked_list import LinkedList
+from print_list import print_list_with_forward_arrow
+
+
+def reverse_even_length_groups(head):
+    # Node immediately before the current group
+    prev = head  
+    # The head doesn't need to be reversed since it's a group of one node, 
+    # so starts with length 2
+    group_len = 2  
+    while prev.next:
+        node = prev
+        num_nodes = 0
+        # traversing all the nodes of the current group
+        for i in range(group_len):
+            if not node.next:
+                break
+            num_nodes += 1
+            node = node.next
+        # odd length
+        if num_nodes % 2:  
+            prev = node
+        # even length
+        else:      
+            reverse = node.next
+            curr = prev.next
+            for j in range(num_nodes):
+                curr_next = curr.next
+                curr.next = reverse
+                reverse = curr
+                curr = curr_next
+            # updating the prev pointer after reversal of the even group
+            prev_next = prev.next
+            prev.next = node
+            prev = prev_next
+        # increment 1 by one and move to the next group
+        group_len += 1
+    return head
+
+
+# Driver Code
+
+def to_list(head):
+    lst = []
+    temp = head
+    while temp:
+        lst.append(temp.data)
+        temp = temp.next
+    return lst
+
+
+def main():
+    input = [
+        [1, 2, 3, 4],
+        [10, 11, 12, 13, 14],
+        [15],
+        [16, 17]
+    ]
+
+    for i in range(len(input)):
+        input_linked_list = LinkedList()
+        input_linked_list.create_linked_list(input[i])
+        print(
+            i+1, ".\tIf we reverse the even length groups of the linked list: ", end='\n\t')
+        print_list_with_forward_arrow(input_linked_list.head)
+        print("\n\n\tWe will get: ", end='\n\t')
+        print_list_with_forward_arrow(
+            reverse_even_length_groups(input_linked_list.head))
+        print("\n")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

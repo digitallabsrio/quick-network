@@ -1,0 +1,36 @@
+def single_non_duplicate(nums): 
+
+    # initilaize the left and right pointer
+    l = 0
+    r = len(nums) - 1
+
+    while l != r: 
+
+        # set the value of mid 
+        mid = l + (r - l) // 2
+
+        # if mid is odd, decrement it to make it even
+        if mid % 2 == 1: 
+            mid -= 1 
+        
+        # if the elements at mid and mid + 1 are the same, then the single element must appear after the midpoint
+        if nums[mid] == nums[mid + 1]: 
+            l = mid + 2
+        
+        # otherwise, we must search for the single element before the midpoint
+        else :
+            r = mid
+    return nums[l]
+
+# Driver code
+def main():
+
+    nums = [[1, 2, 2, 3, 3, 4, 4], [1, 1, 2, 2, 3, 4, 4, 5, 5], [1, 1, 2, 3, 3], [1, 1, 2], [0, 2, 2, 3, 3, 4, 4, 5, 5]]
+
+    for i in range(len(nums)):
+        print(str(i + 1) + ".\tThe Array = ", nums[i] , sep = "")
+        print("\tSingle Element Found: ", single_non_duplicate(nums[i]), sep = "")
+        print("-" * 100)
+
+if __name__ == '__main__':
+    main()

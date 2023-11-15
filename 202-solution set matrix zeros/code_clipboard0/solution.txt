@@ -1,0 +1,58 @@
+def set_matrix_zeros(mat):
+	rows = len(mat)
+	cols = len(mat[0])
+	fcol = False
+	frow = False
+
+	for i in range(rows):
+		if mat[i][0] == 0:
+			fcol = True
+
+	for i in range(cols):
+		if mat[0][i] == 0:
+			frow = True
+
+	for i in range(1, rows):
+		for j in range(1, cols):
+			if mat[i][j] == 0:
+				mat[0][j] = mat[i][0] = 0
+
+	for i in range(1, rows):
+		if mat[i][0] == 0:
+			for j in range(1, cols):
+				mat[i][j] = 0
+
+	for j in range(1, cols):
+		if mat[0][j] == 0:
+			for i in range(1, rows):
+				mat[i][j] = 0
+
+	if fcol:
+		for i in range(rows):
+			mat[i][0] = 0
+
+	if frow:
+		for j in range(cols):
+			mat[0][j] = 0
+	return mat
+
+# Driver code
+def main():
+    mat = [
+      [[1, 1, 0],[1, 0, 1],[1, 1, 1]],
+      [[1, 1, 1, 1, 1], [0, 0, 1, 1, 1], [1, 1, 1, 1, 0], [1, 1, 1, 1, 1]],
+      [[3, 5, 2, 0], [1, 0, 4, 6], [7, 3, 2, 4]],
+      [[1, 2, 3, 4], [4, 5, 6, 7], [8, 9, 4, 6]],
+      [[2, 6, 5, 4, 9, 1], [7, 2, 0, 0, 5, 4], [1, 1, 1, 1, 0, 1], [9, 8, 2, 0, 1, 3], [7, 8, 6, 5, 4, 3], [9, 8, 1, 2, 5, 6]]
+    ]
+
+    for i, input_matrix in enumerate(mat):
+        print(i+1, ". \tOriginal Matrix:", sep="")
+        print_matrix(input_matrix)
+        out_matrix = set_matrix_zeros(input_matrix)
+        print("\n\tMatrix with Zeroes:")
+        print_matrix(out_matrix)
+        print("-"*100)
+
+if __name__ == '__main__':
+    main()

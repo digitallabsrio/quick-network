@@ -1,0 +1,32 @@
+from union_find import UnionFind
+
+def redundant_connection(edges):
+	
+	print("\tDeclaring the parent and rank lists")
+
+	# Declares the parent and rank list with lengths based on the edges list
+	graph = UnionFind(len(edges))
+	print("\t\tParent: ", graph.parent, sep = "")
+	print("\t\tRank: ", graph.rank, sep = "")
+	
+	# Traverses the edges of the graph to check for the redundant edge
+	for v1, v2 in edges:
+		if not graph.union(v1, v2):
+			return [v1, v2]
+
+def main():
+	edges = [
+		[[1, 2], [1, 3], [2, 3]], 
+		[[1, 2], [2, 3], [1, 3]], 
+		[[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]], 
+		[[1, 2], [1, 3], [1, 4], [3, 4], [2, 4]], 
+		[[1, 2], [1, 3], [1, 4], [1,5], [2, 3], [2, 4], [2, 5]]
+	]
+
+	for i in range(len(edges)):
+		print(i+1, ".\tEdges: ", edges[i], sep = "")
+		print("\n\tThe redundant connection in the graph is: ", redundant_connection(edges[i]), sep = "")
+		print("-" * 100)
+
+if __name__ == '__main__':
+	main()

@@ -1,0 +1,28 @@
+from math import log2, floor  # using necessary libraries for this algorithm
+
+
+def find_bitwise_complement(num):
+    if num == 0:  # if the value of num is 0, return 1
+        return 1
+
+    # counting the number of bits required by this number in binary representation
+    bit_count = floor(log2(num)) + 1
+    # computing the all bits set of the number
+    all_bits_set = pow(2, bit_count) - 1
+    # flipping all bits of number by taking xor with all_bits_set
+    return num ^ all_bits_set
+
+
+# driver code
+def main():
+
+    decimal_values = [42, 233, 100, 999999, 54]
+
+    for i in range(len(decimal_values)):
+        print(i + 1, ".\t Input: ", decimal_values[i], sep="")
+        print(f'\t Bitwise complement of {decimal_values[i]} is: ', find_bitwise_complement(decimal_values[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,31 @@
+def find_max_knapsack_profit(capacity, weights, values):
+    n = len(weights)
+    dp = [0] * (capacity + 1)
+
+    for i in range(n):
+        for j in range(capacity, weights[i] - 1, -1):
+            dp[j] = max(values[i] + dp[j - weights[i]], dp[j])
+
+    return dp[capacity]
+
+# Driver code
+def main():
+    weights = [[1, 2, 3, 5],[4],[2],[3, 6, 10, 7, 2], [3, 6, 10, 7, 2, 12, 15, 10, 13, 20]]
+    values = [[1, 5, 4, 8],[2], [3], [12, 10, 15, 17,13], [12, 10, 15, 17,13, 12, 30, 15, 18, 20]]
+    capacity = [6, 3, 3, 10, 20]
+    n = [4, 1, 1, 5, 10]
+    
+    for i in range(len(values)):
+        print(i+1, ". We have a knapsack of capacity ",capacity[i], " and we are given the following list of item values and weights:", sep="")
+        print("-"*30, sep="")
+        print("{:<10}{:<5}{:<5}".format("Weights", "|", "Values"))
+        print("-"*30)
+        for j in range(len(values[i])):
+            print("{:<10}{:<5}{:<5}".format(weights[i][j], "|", values[i][j]))
+        result = find_max_knapsack_profit(capacity[i], weights[i], values[i])
+        print("\nThe maximum we can earn is: ", result, sep="")
+        print("-"*100, "\n", sep="")
+
+
+if __name__ == '__main__':
+    main()

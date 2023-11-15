@@ -1,0 +1,41 @@
+def is_isomorphic(string1, string2):
+
+    # Initializing the hashmaps
+    map_str1_str2 = {}
+    map_str2_str1 = {}
+
+    for i in range(len(string1)):
+        char1 = string1[i]
+        char2 = string2[i]
+
+        # returning false if char_1 in string1 exist in hashmap
+        # and the char_1 has different mapping in hashmap
+        if char1 in map_str1_str2 and map_str1_str2[char1] != char2:
+            return False
+
+        # returning false if char_2 in string2 exist in hashmap
+        # and the char_2 has different mapping in hashmap
+        if char2 in map_str2_str1 and map_str2_str1[char2] != char1:
+            return False
+
+        # mapping of char of one string to another and vice versa
+        map_str1_str2[char1] = char2
+        map_str2_str1[char2] = char1
+
+    return True
+
+
+def main():
+    A = ["egg", "foo", "paper", "badc", "aaeaa"]
+    B = ["all", "bar", "title", "baba", "uuxyy"]
+    x = 1
+    for i in range(len(A)):
+        print(x, ".\tString 1 = ", A[i], sep="")
+        print("\tString 2 = ", B[i], sep="")
+        print("\n\tIsomorphic String ?", is_isomorphic(A[i], B[i]))
+        print(100 * '-')
+        x = x+1
+
+
+if __name__ == '__main__':
+    main()

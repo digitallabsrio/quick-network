@@ -1,0 +1,36 @@
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+def sum_of_squared_digits(number):  # Helper function that calculates the sum of squared digits.
+    total_sum = 0
+    print("\tCalculating the sum of squared digits")
+    print("\tTotal sum:", total_sum)
+    i = 0
+    while number > 0:
+        print("\tLoop iteration #", i+1)
+        a = len(str(number))
+        print("\t\tThe number is ", number)
+        digit = number % 10
+        print("\t\t", print_string_with_markers(str(number), a - 1), "Last Digit ⟶", digit)
+        a = a - 1
+        print("\t\tUpdating number ⟶ number/10 = ", number, "/10")
+        number = number // 10
+        print("\t\t\t\tThe number is now:", number)
+        print("\t\tTotal sum + square of the digit = ", total_sum, "+", digit, "*", digit,
+              "=", (total_sum := total_sum + digit ** 2))
+        i = i + 1
+        print("")
+    print("\tSum of squared digits:", total_sum, "\n")
+
+
+def main():
+    inputs = [1, 5, 19, 25, 7]
+    for i in range(len(inputs)):
+        print(i+1, ".", "\tInput Number:", inputs[i], sep="")
+        sum_of_squared_digits(inputs[i])
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

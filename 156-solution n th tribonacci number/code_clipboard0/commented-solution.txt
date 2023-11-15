@@ -1,0 +1,27 @@
+def find_tribonacci(n):
+    # if n is less than 3, then it's the base case
+    if n < 3:
+        return 1 if n else 0
+
+    # initializing first three numbers
+    first_num, second_num, third_num = 0, 1, 1
+    # loop proceeds for n-2 times
+    for _ in range(n - 2):
+        # compute the sum of the last three Tribonacci numbers and update
+        # first_num, second_num and third_num for the next iteration
+        first_num, second_num, third_num = second_num, third_num, \
+          first_num + second_num + third_num
+    return third_num
+
+
+# Driver code
+def main():
+    n = [4, 5, 25, 17, 19]
+    for i in range(len(n)):
+        print((i + 1), ".\tThe ", (n[i]), "th Tribonacci number is:  ",
+              find_tribonacci(n[i]), sep="")
+        print("-"*100, "\n")
+
+
+if __name__ == '__main__':
+    main()

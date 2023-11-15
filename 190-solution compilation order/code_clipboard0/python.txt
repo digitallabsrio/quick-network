@@ -1,0 +1,36 @@
+from collections import deque
+
+
+def find_compilation_order(dependencies):
+    sorted_order = []
+    # a. Initialize the graph and inDegree
+    graph = {}
+    inDegree = {}
+    print("\tInitializing the graph and inDegree")
+    for x in dependencies:
+        parent, child = x[1], x[0]
+        graph[parent], graph[child] = [], []
+        inDegree[parent], inDegree[child] = 0, 0
+    print("\t\tGraph: ", graph, sep = "")
+    print("\t\tinDegree: ", inDegree, "\n", sep = "")
+    if len(graph) <= 0:
+        print("\tThere are no vertices")
+        print("\t\tReturning the sorted order: ", sorted_order, sep = "")
+        return sorted_order
+
+
+# Driver code
+def main():
+    dependencies = [[['B', 'A'], ['C', 'A'], ['D', 'C'], ['E', 'D'], ['E', 'B']],
+        [['B', 'A'], ['C', 'A'], ['D', 'B'], ['E', 'B'], ['E', 'D'], ['E', 'C'], ['F', 'D'], ['F', 'E'], ['F', 'C']],
+        [['A', 'B'], ['B', 'A']],
+        [['B', 'C'], ['C', 'A'], ['A', 'F']],
+        [['C', 'C']]]
+    for i in range(len(dependencies)):
+        print(i + 1, ".\tdependencies: ", dependencies[i], sep = "")
+        print("\tCompilation Order: ", find_compilation_order(dependencies[i]), sep = "")
+        print("-"*100, "\n", sep ="")
+
+
+if __name__ == "__main__":
+    main()

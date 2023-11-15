@@ -1,0 +1,26 @@
+def min_window(str1, str2):
+    # save the size of str1 and str2
+    size_str1, size_str2 = len(str1), len(str2)
+
+    # initialize min_sub_len to a very large number (infinity)
+    min_sub_len = float('inf')
+
+    # initialize indexes to zero and the min_subsequence to an empty string
+    index_s1, index_s2 = 0, 0
+    min_subsequence = ""
+
+    print("\t Length of str1 is: ", size_str1)
+    print("\t Length of str2 is: ", size_str2)
+
+# driver code
+def main():
+    str1 = ["abcdebdde", "fgrqsqsnodwmxzkzxwqegkndaa", "zxcvnhss", "alpha", "beta"]
+    str2 = ["bde", "kzed", "css", "la", "ab"]
+
+    for i in range(len(str1)):
+        print(i+1, ".\t Input strings: (" + str1[i]+", " + str2[i]+")", sep="")
+        min_window(str1[i], str2[i])
+        print("-"*100)
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,53 @@
+from TreeNode import *
+from BinaryTree import *
+import math
+
+# Function to check if a given binary tree is a valid BST or not
+def validate_bst(root):
+    # Explicitly using List object to pass prev by reference because
+    # in python, Pass-by-object-reference is used and simple variable is not an object
+    prev = [-math.inf]
+    return validate_bst_helper(root, prev)
+
+# Helper function for validate_bst
+def validate_bst_helper(root, prev):
+    if not root:
+         return True
+    # If left subtree is not a valid BST, return False
+    if not validate_bst_helper(root.left, prev):
+        return False
+    # If current node is less than or equal to previous node, the tree is not a valid BST
+    if root.data <= prev[0]:
+        return False
+    prev[0] = root.data
+    # Checking right subtree
+    return validate_bst_helper(root.right, prev)
+
+# Driver code
+def main():
+    # Create a list of list of TreeNode objects to represent binary trees
+    list_of_trees = [ [TreeNode(5), TreeNode(3), TreeNode(2), TreeNode(6), TreeNode(4)],
+                    [TreeNode(6), TreeNode(2), TreeNode(5), TreeNode(4), TreeNode(7)],
+                    [TreeNode(4), TreeNode(2), TreeNode(5), TreeNode(1), TreeNode(3)],
+                    [TreeNode(7), TreeNode(2), TreeNode(5), TreeNode(4), TreeNode(8)],
+                    [TreeNode(9), TreeNode(5), TreeNode(7), TreeNode(1), TreeNode(3)],
+                    [TreeNode(5), TreeNode(3), TreeNode(8), TreeNode(2), TreeNode(4), None, TreeNode(9)]
+    ]
+
+    # Create the binary trees using the BinaryTree class
+    input_trees = []
+    for list_of_nodes in list_of_trees:
+        tree = BinaryTree(list_of_nodes)
+        input_trees.append(tree)
+
+    # Print the input trees
+    x = 1
+    for tree in input_trees:
+        print(x, ".\tInput Tree:", sep = "")
+        display_tree(tree.root)
+        x += 1
+        print("\n\tValid BST: ", validate_bst(tree.root), sep = "")
+        print("-" * 100)
+    
+if __name__ == '__main__':
+    main()

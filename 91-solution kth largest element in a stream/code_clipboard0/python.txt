@@ -1,0 +1,28 @@
+import heapq
+
+
+class KthLargest:
+    # constructor to initialize heap and add values in it
+    def __init__(self, k, nums):
+        print("\tInitializing the heap")
+        self.k = k
+        self.top_k_heap = nums
+        heapq.heapify(self.top_k_heap)
+        print("\t\tk = ", self.k)
+        print("\t\tHeap: ", self.top_k_heap)
+        while len(self.top_k_heap) > k:
+            print("\t\tLength of the heap = ", len(self.top_k_heap), ", which is greater than k = ", k, sep = "")
+            print("\t\t\tPopping from the heap: ", self.top_k_heap, " ⟶ ", end = "")
+            heapq.heappop(self.top_k_heap)
+            print(self.top_k_heap)
+
+
+def main():
+    nums = [3, 6, 9, 10]
+    print("Initial stream: ", nums, sep = "")
+    k_largest = KthLargest(3, nums)
+    print()
+
+
+if __name__ == "__main__":
+    main()

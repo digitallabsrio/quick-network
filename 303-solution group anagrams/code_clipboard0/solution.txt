@@ -1,0 +1,38 @@
+def group_anagrams(strs):
+    res = {}
+
+    for s in strs:
+        count = [0] * 26
+        for i in s:
+            index = ord(i) - ord('a')
+            count[index] += 1
+    
+        key = tuple(count)
+
+        if key in res:
+            res[key].append(s)
+        else:
+            res[key] = [s]
+
+    return list(res.values())
+
+
+
+# Driver code
+def main():
+    titles = [
+        ["eat", "beat", "neat", "tea"],
+        ["duel", "dule", "speed", "spede", "deul", "cars"],
+        ["eat", "tea", "tan", "ate", "nat", "bat"],
+        [""],
+        ["sword", "swords"], ["pot", "top", "opt"]]
+
+    for i in range(len(titles)):
+        print((i+1), ".\tThe Grouped Anagrams for the list ",
+              titles[i], " are:", sep="")
+        print("\t", list(group_anagrams(titles[i])), sep="")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

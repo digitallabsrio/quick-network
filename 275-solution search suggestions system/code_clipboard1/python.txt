@@ -1,0 +1,88 @@
+from trie_node import *
+
+
+def print_string_with_markers(strn, pValue):
+    out = strn[:pValue] + '«' + strn[pValue] + '»' + strn[pValue+1:]
+    return out
+
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+
+
+    def insert(self, data):
+        node = self.root
+        idx = 0
+        for char in data:
+            print("\t\t", print_string_with_markers(data, idx), sep="")
+            # Create a new node if char does not exist in children dictionary
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            if len(node.search_words) < 3:
+                node.search_words.append(data)
+                print("\t\tUpdated list for substring '", data[:idx + 1], "': ",
+                    node.search_words, sep="")
+            else:
+                print("\t\tLength of search list for '", char, "' = 3", sep="")
+                print("\t\tSo we won't append this word to it")
+            idx += 1
+            print()
+
+    def search(self, word):
+        result, node = [], self.root
+        for i, char in enumerate(word):
+            print("\t\t", print_string_with_markers(word, i), sep="")
+            print("\t\tCurrent node's children: ",
+                  node.children.keys(), sep="")
+            if char not in node.children:
+                print("\t\t'", char, "' is not present in node's children", sep="")
+                print("\t\tHence, no further strings can be matched.",
+                      " We'll append empty lists for the\n\t\tremaining characters of the searched word to the result", sep="")
+                temp = [[] for _ in range(len(word) - i)]
+                print("\t\tResult: ", result + temp, sep="")
+                return result + temp
+            else:
+                # if it exists, append the item in result array
+                print("\t\t'", char, "' is present in node's children.", sep="")
+                node = node.children[char]
+                print("\t\t\tUpdated current node: ", char, sep="")
+                print("\t\t\t", char, "'s list: ",
+                      node.search_words[:], sep="")
+                print("\t\tWe'll append ", char,
+                      "'s search list to our result", sep="")
+                result.append(node.search_words[:])
+                print("\t\tResult: ", result)
+                print()
+        return result
+
+
+def suggested_products(products, search_word):
+    # sorting the products list
+    products.sort()
+    trie = Trie()
+    # Insert each products string in Trie
+    print("\n\tInserting nodes in the trie")
+    for x in products:
+        print("\t\tInserting: '", x, "'", sep="")
+        trie.insert(x)
+    print("\tSearching for '", search_word, "'", sep="")
+    return trie.search(search_word)
+
+
+# Driver code
+def main():
+    products = ["bat", "bag", "bassinet", "bread", "cable",
+                "table", "tree", "tarp"]
+    search_word_list = ["ba", "in", "ca", "t"]
+    for i in range(len(search_word_list)):
+        print(i + 1, ".\tProducts:", products, sep="")
+        print("\tSearch keyword: '", search_word_list[i], "'", sep="")
+        print("\tSuggested Products: ", suggested_products(
+            products, search_word_list[i]), sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

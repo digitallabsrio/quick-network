@@ -1,0 +1,33 @@
+def first_unique_char(s):
+
+    character_count = {} 
+    string_length = len(s)  
+
+    for i in range(string_length): 
+        if s[i] in character_count:
+            character_count[s[i]] += 1
+        else:
+            character_count[s[i]] = 1
+
+    for i in range(string_length):
+        if character_count[s[i]] == 1:
+            return i
+            
+    return -1
+
+
+# driver code
+def main():
+    str_array = ["baefeab", "aabbcc", "dajhfiuebdafsdhdgaj",
+                 "xyurtwxwtryua", "aeiouqwertyauieotweryqq", "awsjuhfajwfnkag"]
+
+    for i in range(len(str_array)):
+        print(i + 1, ".\t Input string: \"", str_array[i], "\"", sep="")
+        result = first_unique_char(str_array[i])
+        print("\t Finding a unique character .....")
+        print("\t Index of the first unique character is: ", result, sep="")
+        print("-" * 100)
+
+
+if __name__ == "__main__":
+    main()

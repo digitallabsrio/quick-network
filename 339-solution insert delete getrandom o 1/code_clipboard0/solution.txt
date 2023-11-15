@@ -1,0 +1,56 @@
+from random import choice
+
+
+class RandomSet():
+    def __init__(self):
+        self.indexor = {}
+        self.store = [] 
+
+    # Function to insert a value
+    def insert(self, val):
+        if val in self.indexor:
+            return False
+        self.indexor[val] = len(self.store)
+        self.store.append(val)
+        return True
+
+    # Function to remove a value
+    def delete(self, val):
+        if val in self.indexor:
+            last, i = self.store[-1], self.indexor[val]
+            self.store[i], self.indexor[last] = last, i
+            del self.indexor[val]
+            self.store.pop()
+            return True
+        return False
+
+    # Function to generate a random value
+    def get_random(self):
+        return choice(self.store)
+
+
+# Driver code
+def main():
+    commands = [["I", "G", "I", "I", "R", "G"],
+                ["I", "I", "R", "G", "R", "I"]]
+    values = [[10, -1, 100, 1000, 200, -1], [30, 60, 10, -1, 30, 90]]
+
+    for i in range(len(commands)):
+        dataset = RandomSet()
+        print(i + 1, ". Starting operations:", "\n", sep="")
+
+        for j in range(len(commands[i])):
+            if commands[i][j] == "I":
+                print("\tInsert (", values[i][j], ") returns ",
+                      dataset.insert(values[i][j]), sep="")
+            elif commands[i][j] == "R":
+                print("\tDelete (", values[i][j], ") returns ",
+                      dataset.delete(values[i][j]), sep="")
+            elif commands[i][j] == "G":
+                print("\tGenerate Random() returns ",
+                      dataset.get_random(), sep="")
+        print("-" * 100)
+
+
+if __name__ == '__main__':
+    main()

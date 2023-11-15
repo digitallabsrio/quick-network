@@ -1,0 +1,35 @@
+def permute_palindrome(st):
+    frequencies = {}
+    index = 0
+    for i in st:
+        index += 1
+        if i in frequencies:
+            frequencies[i] += 1
+        else:
+            frequencies[i] = 1
+    count = 0
+    for ch in frequencies.keys():
+        if frequencies[ch] % 2:
+            count += 1
+
+    if count <= 1:
+        return True
+    else:
+        return False
+
+
+# Driver Code
+def main():
+    str_array = ["baefeab", "abc", "xzz", "jjadd", "kllk"]
+    for i in range(len(str_array)):
+        print(i + 1, ".\tInput string: ", str_array[i], sep="")
+        result = permute_palindrome(str_array[i])
+        if result:
+            print("\n\tInput string has permutations that are palindromes")
+        else:
+            print("\n\tInput string does not have a permutation that's a palindrome")
+        print("-"*100)
+
+
+if __name__ == "__main__":
+    main()
